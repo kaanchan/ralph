@@ -1,82 +1,66 @@
-"""Executor node — calls Aider as a subprocess to write/edit code in workspace/."""
+"""Executor node -- runs Aider against a target git repo (not ralph itself)."""
 import subprocess
 import sys
 from pathlib import Path
-from config import WORKSPACE_DIR, OLLAMA_BASE_URL
 from state import RalphState
-from router import select_model, llm_call
+from router import select_model
+from config import OLLAMA_BASE_URL
 
 
-def _aider_model_flag(model: str) -> list[str]:
-    """Translate LiteLLM model string to Aider's --model flag format."""
+def _aider_model_flags(model: str) -> list[str]:
+    flags = ["--model", model]
     if model.startswith("ollama/"):
-        name = model.split("/", 1)[1]
-        return ["--model", f"ollama/{name}"]
-    if model.startswith("gemini/"):
-        return ["--model", model]
-    return ["--model", model]
+        flags += ["--openai-api-base", OLLAMA_BASE_URL]
+    return flags
 
 
-def run_aider(task: str, model: str, target_file: str = "solution.py") -> tuple[str, str]:
-    """
-    Invoke Aider in workspace/ with the given task message.
-    Returns (code_written, aider_output).
-    """
-    WORKSPACE_DIR.mkdir(exist_ok=True)
-    target = WORKSPACE_DIR / target_file
-
-    # Touch the file so Aider has something to edit
-    if not target.exists():
-        target.write_text("# ralph workspace\n")
-
+def run_aider(task: str, model: str, repo_dir: Path) -> tuple[str, str]:
+    """Run Aider against repo_dir with the given task. Returns (stdout, stderr)."""
     cmd = [
         sys.executable, "-m", "aider",
         "--yes",
-        "--auto-commits",             # workspace has its own git, let Aider commit
         "--message", task,
-        str(target),
-    ] + _aider_model_flag(model)
-
-    if model.startswith("ollama/"):
-        cmd += ["--openai-api-base", OLLAMA_BASE_URL]
+    ] + _aider_model_flags(model)
 
     result = subprocess.run(
         cmd,
-        cwd=str(WORKSPACE_DIR),
+        cwd=str(repo_dir),
         capture_output=True,
         text=True,
         timeout=300,
     )
-
-    code = target.read_text(encoding="utf-8") if target.exists() else ""
-    return code, result.stdout + result.stderr
+    return result.stdout, result.stderr
 
 
-def run_code(target_file: str = "solution.py") -> str:
-    """Execute the generated file and return stdout+stderr."""
-    target = WORKSPACE_DIR / target_file
-    if not target.exists():
-        return "No file to run."
-    result = subprocess.run(
-        [sys.executable, str(target)],
-        capture_output=True,
-        text=True,
-        timeout=60,
-        cwd=str(WORKSPACE_DIR),
-    )
-    return (result.stdout + result.stderr).strip() or "(no output)"
+def run_tests(repo_dir: Path) -> str:
+    """Try common test runners; return combined output."""
+    for cmd in (
+        [sys.executable, "-m", "pytest", "--tb=short", "-q"],
+        [sys.executable, "-m", "unittest", "discover"],
+    ):
+        result = subprocess.run(
+            cmd, cwd=str(repo_dir),
+            capture_output=True, text=True, timeout=60,
+        )
+        output = (result.stdout + result.stderr).strip()
+        if output:
+            return output
+    return "(no tests found)"
 
 
 def executor_node(state: RalphState) -> dict:
     model = select_model(state)
+    repo_dir = Path(state["repo_dir"])
+
     task_prompt = f"{state['plan']}\n\nTask: {state['task']}"
+    stdout, stderr = run_aider(task_prompt, model, repo_dir)
+    aider_out = (stdout + stderr).strip()
 
-    code, aider_out = run_aider(task_prompt, model)
-    test_out = run_code()
+    test_out = run_tests(repo_dir)
 
-    log_entry = f"[iter {state['iterations']+1}] executor → model={model}"
+    log_entry = f"[iter {state['iterations']+1}] executor -> model={model} | aider={'OK' if stdout else 'WARN:' + stderr[:80]}"
     return {
-        "code": code,
+        "code": aider_out,
         "test_output": test_out,
         "model_used": model,
         "iterations": state["iterations"] + 1,

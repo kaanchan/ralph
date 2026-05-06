@@ -2,11 +2,12 @@
 RALPH -- Recursive Agent Loop with Planner/Handler
 
 Usage:
-    python main.py "write a Python function that reverses a string and tests it"
+    python main.py --repo C:/path/to/your/repo "add a hello world function"
     python main.py --history
 """
 import argparse
 import sys
+from pathlib import Path
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
@@ -18,9 +19,10 @@ from state import RalphState
 console = Console(force_terminal=True, highlight=False)
 
 
-def initial_state(task: str) -> RalphState:
+def initial_state(task: str, repo_dir: str) -> RalphState:
     return RalphState(
         task=task,
+        repo_dir=repo_dir,
         plan="",
         code="",
         test_output="",
@@ -85,6 +87,7 @@ def print_history() -> None:
 def main() -> None:
     p = argparse.ArgumentParser(description="RALPH -- local-first coding agent loop")
     p.add_argument("task", nargs="?", help="Coding task to execute")
+    p.add_argument("--repo", default=".", help="Path to the target git repo Aider will edit")
     p.add_argument("--history", action="store_true", help="Show run history")
     args = p.parse_args()
 
@@ -96,11 +99,12 @@ def main() -> None:
         p.print_help()
         sys.exit(1)
 
-    console.print(Panel(f"[bold]Task:[/bold] {args.task}", border_style="blue"))
+    repo_dir = str(Path(args.repo).resolve())
+    console.print(Panel(f"[bold]Task:[/bold] {args.task}\n[dim]Repo:[/dim] {repo_dir}", border_style="blue"))
     console.print("[dim]Streaming node-by-node output below...[/dim]\n")
 
     graph = build_graph()
-    state = initial_state(args.task)
+    state = initial_state(args.task, repo_dir)
 
     # stream() yields one dict per node as it completes — full visibility
     for step in graph.stream(state, stream_mode="updates"):
