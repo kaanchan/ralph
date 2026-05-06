@@ -17,18 +17,26 @@ def select_model(state: RalphState) -> str:
 
 
 def llm_call(prompt: str, model: str, system: str = "") -> str:
-    """Unified LLM call through LiteLLM — same interface for local and cloud."""
+    """Unified LLM call through LiteLLM — falls back to local if cloud fails."""
     messages = []
     if system:
         messages.append({"role": "system", "content": system})
     messages.append({"role": "user", "content": prompt})
 
-    kwargs = dict(model=model, messages=messages, temperature=0.2)
-    if model.startswith("ollama/"):
-        kwargs["api_base"] = OLLAMA_BASE_URL
+    def _call(m: str) -> str:
+        kwargs = dict(model=m, messages=messages, temperature=0.2)
+        if m.startswith("ollama/"):
+            kwargs["api_base"] = OLLAMA_BASE_URL
+        response = litellm.completion(**kwargs)
+        return response.choices[0].message.content.strip()
 
-    response = litellm.completion(**kwargs)
-    return response.choices[0].message.content.strip()
+    try:
+        return _call(model)
+    except Exception as e:
+        if model != LOCAL_MODEL:
+            print(f"  [router] cloud call failed ({e.__class__.__name__}), falling back to local")
+            return _call(LOCAL_MODEL)
+        raise
 
 
 def route_decision(state: RalphState) -> str:

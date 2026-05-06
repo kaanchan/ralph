@@ -31,9 +31,8 @@ def run_aider(task: str, model: str, target_file: str = "solution.py") -> tuple[
 
     cmd = [
         sys.executable, "-m", "aider",
-        "--yes",                      # non-interactive
-        "--no-git",                   # don't touch host git history
-        "--no-auto-commits",
+        "--yes",
+        "--auto-commits",             # workspace has its own git, let Aider commit
         "--message", task,
         str(target),
     ] + _aider_model_flag(model)

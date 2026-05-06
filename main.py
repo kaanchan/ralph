@@ -1,5 +1,5 @@
 """
-RALPH — Recursive Agent Loop with Planner/Handler
+RALPH -- Recursive Agent Loop with Planner/Handler
 
 Usage:
     python main.py "write a Python function that reverses a string and tests it"
@@ -14,7 +14,8 @@ from graph import build_graph
 from memory import save_run, load_runs
 from state import RalphState
 
-console = Console()
+# force_terminal=True avoids Windows cp1252 encoding crashes
+console = Console(force_terminal=True, highlight=False)
 
 
 def initial_state(task: str) -> RalphState:
@@ -33,6 +34,7 @@ def initial_state(task: str) -> RalphState:
 
 
 def print_summary(state: RalphState) -> None:
+    success = state["done"] or state["score"] >= 0.75
     console.print()
     table = Table(title="RALPH Run Summary", show_lines=True)
     table.add_column("Field", style="cyan")
@@ -43,7 +45,7 @@ def print_summary(state: RalphState) -> None:
     table.add_row("Model used", state["model_used"])
     table.add_row("Escalated", "yes" if state["escalated"] else "no")
     table.add_row("Cost tier", "cloud" if state["escalated"] else "local")
-    table.add_row("Success", "✓" if state["done"] or state["score"] >= 0.75 else "✗")
+    table.add_row("Success", "PASS" if success else "FAIL")
     console.print(table)
 
     console.print("\n[bold]Decision log:[/bold]")
@@ -71,7 +73,7 @@ def print_history() -> None:
     for r in runs:
         table.add_row(
             r["timestamp"],
-            r["task"][:50] + ("…" if len(r["task"]) > 50 else ""),
+            r["task"][:50] + ("..." if len(r["task"]) > 50 else ""),
             str(r["iterations"]),
             f"{r['final_score']:.2f}",
             r["model_used"],
@@ -81,7 +83,7 @@ def print_history() -> None:
 
 
 def main() -> None:
-    p = argparse.ArgumentParser(description="RALPH — local-first coding agent loop")
+    p = argparse.ArgumentParser(description="RALPH -- local-first coding agent loop")
     p.add_argument("task", nargs="?", help="Coding task to execute")
     p.add_argument("--history", action="store_true", help="Show run history")
     args = p.parse_args()
@@ -95,16 +97,34 @@ def main() -> None:
         sys.exit(1)
 
     console.print(Panel(f"[bold]Task:[/bold] {args.task}", border_style="blue"))
+    console.print("[dim]Streaming node-by-node output below...[/dim]\n")
 
     graph = build_graph()
     state = initial_state(args.task)
 
-    with console.status("[bold green]RALPH loop running…[/bold green]"):
-        final = graph.invoke(state)
+    # stream() yields one dict per node as it completes — full visibility
+    for step in graph.stream(state, stream_mode="updates"):
+        for node_name, node_output in step.items():
+            console.print(f"[bold cyan]>> {node_name}[/bold cyan]", end="  ")
+            if "plan" in node_output and node_output["plan"]:
+                console.print(f"plan ready ({len(node_output['plan'])} chars)")
+            elif "code" in node_output and node_output["code"]:
+                lines = node_output["code"].count("\n")
+                console.print(f"code written ({lines} lines)")
+            elif "score" in node_output:
+                console.print(f"score={node_output['score']:.2f}  done={node_output.get('done', False)}")
+            else:
+                console.print(str(list(node_output.keys())))
+            # print the latest log entry if present
+            if node_output.get("log"):
+                console.print(f"   [dim]{node_output['log'][-1]}[/dim]")
 
-    print_summary(final)
-    path = save_run(final)
-    console.print(f"\n[dim]Run saved → {path}[/dim]")
+        final = {**state, **{k: v for d in step.values() for k, v in d.items()}}
+        state = {**state, **final}
+
+    print_summary(state)
+    path = save_run(state)
+    console.print(f"\n[dim]Run saved -> {path}[/dim]")
 
 
 if __name__ == "__main__":
