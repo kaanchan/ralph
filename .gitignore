@@ -5,3 +5,7 @@ __pycache__/
 memory/
 workspace/
 .aider*
+.venv/
+ralph_run.log
+diagnostics/diag_*.log
+diagnostics/diag_latest.log

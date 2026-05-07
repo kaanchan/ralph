@@ -6,17 +6,37 @@ Usage:
     python main.py --history
 """
 import argparse
+import os
 import sys
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+warnings.filterwarnings("ignore", category=PendingDeprecationWarning)
 from pathlib import Path
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
-from graph import build_graph
+# LangGraph's init calls warn_deprecated with stacklevel=4, which bypasses
+# standard filter contexts. Temporarily no-op warnings.warn for the import.
+# Set RALPH_VERBOSE_WARNINGS=1 to restore all warnings (useful for debugging
+# what any layer of the stack is communicating).
+if os.getenv("RALPH_VERBOSE_WARNINGS"):
+    from graph import build_graph
+else:
+    _real_warn = warnings.warn
+    warnings.warn = lambda *a, **kw: None
+    try:
+        from graph import build_graph
+    finally:
+        warnings.warn = _real_warn
 from memory import save_run, load_runs
 from state import RalphState
+from runlog import reset_log
+from config import RALPH_LOG_PATH, MAX_CONSECUTIVE_TIMEOUTS
 
-# force_terminal=True avoids Windows cp1252 encoding crashes
-console = Console(force_terminal=True, highlight=False)
+# legacy_windows=False disables the cp1252 Windows renderer; safe=True
+# means unknown chars are replaced instead of crashing.
+# Use Windows Terminal for best results -- it's UTF-8 native.
+console = Console(force_terminal=True, legacy_windows=False, highlight=False, safe_box=True)
 
 
 def initial_state(task: str, repo_dir: str) -> RalphState:
@@ -31,12 +51,23 @@ def initial_state(task: str, repo_dir: str) -> RalphState:
         model_used="",
         escalated=False,
         done=False,
+        timeout_count=0,
         log=[],
     )
 
 
 def print_summary(state: RalphState) -> None:
     success = state["done"] or state["score"] >= 0.75
+    timed_out = state.get("timeout_count", 0) >= MAX_CONSECUTIVE_TIMEOUTS
+
+    if timed_out:
+        console.print(Panel(
+            f"[bold red]HARD-FAIL[/bold red] — {state['timeout_count']} consecutive timeouts.\n"
+            f"Likely causes: Ollama down, model unloaded, or local model can't handle the prompt shape.\n"
+            f"Check: ollama list  /  ollama ps  /  inspect {RALPH_LOG_PATH}",
+            border_style="red", title="Run aborted",
+        ))
+
     console.print()
     table = Table(title="RALPH Run Summary", show_lines=True)
     table.add_column("Field", style="cyan")
@@ -47,7 +78,10 @@ def print_summary(state: RalphState) -> None:
     table.add_row("Model used", state["model_used"])
     table.add_row("Escalated", "yes" if state["escalated"] else "no")
     table.add_row("Cost tier", "cloud" if state["escalated"] else "local")
-    table.add_row("Success", "PASS" if success else "FAIL")
+    if timed_out:
+        table.add_row("Success", "[red]TIMEOUT[/red]")
+    else:
+        table.add_row("Success", "PASS" if success else "FAIL")
     console.print(table)
 
     console.print("\n[bold]Decision log:[/bold]")
@@ -100,7 +134,13 @@ def main() -> None:
         sys.exit(1)
 
     repo_dir = str(Path(args.repo).resolve())
-    console.print(Panel(f"[bold]Task:[/bold] {args.task}\n[dim]Repo:[/dim] {repo_dir}", border_style="blue"))
+    reset_log()
+    console.print(Panel(
+        f"[bold]Task:[/bold] {args.task}\n[dim]Repo:[/dim] {repo_dir}\n"
+        f"[dim]Live log:[/dim] {RALPH_LOG_PATH}\n"
+        f"[dim]Tail:[/dim]     Get-Content -Wait \"{RALPH_LOG_PATH}\"",
+        border_style="blue",
+    ))
     console.print("[dim]Streaming node-by-node output below...[/dim]\n")
 
     graph = build_graph()
