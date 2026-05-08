@@ -9,7 +9,9 @@
     "node_1778224725.8744931_planner",
     "node_1778224739.6750581_executor",
     "node_1778224773.3598742_evaluator",
-    "node_1778224773.3619606_executor"
+    "node_1778224773.3619606_executor",
+    "node_1778224803.235156_evaluator",
+    "node_1778224803.2376995_executor"
   ],
   "metrics": {
     "total_cost": 0.0,
