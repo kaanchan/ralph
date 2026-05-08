@@ -1,0 +1,39 @@
+=== RALPH run 2026-05-08T11:19:59 ===
+
+=== solution.py (10.3s) ===
+ ```python
+def fibonacci(n):
+    if n == 0:
+        return 0
+    elif n == 1:
+        return 1
+    
+    a, b = 0, 1
+    for _ in range(2, n + 1):
+        a, b = b, a + b
+    return b
+```
+
+=== test_solution.py (4.7s) ===
+ No if __name__ == '__main__':
+```python
+from solution import fibonacci
+
+def test_fibonacci_zero():
+    assert fibonacci(0) == 0
+
+def test_fibonacci_one():
+    assert fibonacci(1) == 1
+
+def test_fibonacci_two():
+    assert fibonacci(2) == 1
+
+def test_fibonacci_three():
+    assert fibonacci(3) == 2
+
+def test_fibonacci_ten():
+    assert fibonacci(10) == 55
+
+def test_fibonacci_twenty():
+    assert fibonacci(20) == 6765
+```

@@ -62,6 +62,14 @@ class TraceManager:
         self._init_fs()
         self.daemon.start()
 
+    def redirect(self, new_traces_dir: Path):
+        """Re-point all trace output to a new directory (e.g. a Task Pod)."""
+        self.run_dir = new_traces_dir / self.run_id
+        self.nodes_dir = self.run_dir / "nodes"
+        self.tools_dir = self.run_dir / "tools"
+        self._init_fs()
+        self._sync_run()
+
     def _init_fs(self):
         try:
             self.run_dir.mkdir(parents=True, exist_ok=True)

@@ -1,0 +1,14 @@
+{
+  "id": "node_1778255949.4990735_executor",
+  "name": "executor",
+  "start_time": 1778255949.4990735,
+  "end_time": 1778255960.8823018,
+  "duration": 11.383228302001953,
+  "status": "success",
+  "tool_ids": [
+    "tool_149e8d4b",
+    "tool_60cffdb4",
+    "tool_5312291b"
+  ],
+  "metrics": {}
+}

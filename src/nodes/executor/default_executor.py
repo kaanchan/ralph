@@ -29,7 +29,7 @@ from pathlib import Path
 
 from config import (
     OLLAMA_API_BASE, AIDER_TIMEOUT, LOCAL_MODEL_TIMEOUT, GIT_TIMEOUT,
-    SILENT_WARN_AFTER, TIMEOUT_SENTINEL, AIDER_LOG_PATH,
+    SILENT_WARN_AFTER, TIMEOUT_SENTINEL, AIDER_LOG_PATH, ROOT
 )
 from runlog import log, loud_timeout, log_tool
 from router import select_model
@@ -39,7 +39,7 @@ from model_registry import calculate_safe_ctx, get_model_profile
 from telemetry import tracer
 
 def load_prompt(filename: str) -> str:
-    path = Path(__file__).parent.parent / "prompts" / filename
+    path = ROOT / "prompts" / filename
     try:
         return path.read_text(encoding="utf-8").strip()
     except OSError:
@@ -440,6 +440,10 @@ def executor_node(state: RalphState) -> dict:
     model = select_model(state)
     repo_dir = Path(state["repo_dir"])
     iteration = state["iterations"] + 1
+
+    if model.startswith("ollama/"):
+        log("  ollama | cooldown (2s) to prevent HTTP 500...")
+        time.sleep(2)
 
     task_prompt = state["task"]
     # State Routing Matrix: Dynamic Prompt Injection for Timeouts

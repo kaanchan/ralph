@@ -150,6 +150,9 @@ def main() -> None:
     registry.insert(0, {"task_dir": str(task_dir), "name": task_dir.name, "timestamp": time.time()})
     registry_file.write_text(json.dumps(registry[:20], indent=2))  # keep last 20
 
+    # 1.6 Redirect telemetry tracer to this Task Pod
+    tracer.redirect(task_dir / "traces")
+
     # 2. Extract Goal from task.json
     task_file = task_dir / "task.json"
     if task_file.exists():

@@ -1,0 +1,13 @@
+{
+  "id": "tool_ebee6bcf",
+  "parent_node": "executor",
+  "name": "pytest",
+  "start_time": 1778255974.6705768,
+  "end_time": 1778255975.2710993,
+  "duration": 0.600522518157959,
+  "status": "failed",
+  "flags": {},
+  "inputs": "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\.venv\\Scripts\\python.exe -m pytest test_solution.py --tb=short -q",
+  "outputs": "no tests ran in 0.00s",
+  "metrics": {}
+}

@@ -1,0 +1,17 @@
+{
+  "id": "tool_b20b4087",
+  "parent_node": "executor",
+  "name": "ollama [qwen25-coder-14b]",
+  "start_time": 1778256395.320983,
+  "end_time": 1778256397.379775,
+  "duration": 2.0587921142578125,
+  "status": "failed",
+  "flags": {
+    "budget": 180,
+    "num_ctx": 2048,
+    "temperature": 0
+  },
+  "inputs": "",
+  "outputs": "HTTP Error 500: Internal Server Error",
+  "metrics": {}
+}

@@ -36,3 +36,20 @@ This document serves as the permanent scientific ledger for all brainstorming, p
 **Status:** 🟢 Executing
 - **Concept:** Removing the hardcoded `src/graph.py` and pushing the LangGraph topology logic into the Task Pods themselves (`tasks/<task>/topology.py`).
 - **Why:** Allows each task to wire up its own custom graph by importing specific node variants from the `src/nodes/` library. Enables small, observable, custom graph setups on a per-task basis.
+
+## 7. Dashboard Controls (Play / Pause / Save / Resume / Abort)
+**Status:** 🟡 Next Priority
+- **Concept:** Add control buttons to the Streamlit sidebar that communicate with the running LangGraph engine via a shared control file or the SQLite checkpoint.
+- **Play/Resume:** Load from the latest checkpoint and continue graph execution.
+- **Pause/Save:** Write a control signal that the engine polls between nodes. On detection, the engine saves state and exits cleanly.
+- **Abort:** Kill the running subprocess and preserve the checkpoint for later inspection.
+- **Why:** The dashboard should be the single pane of glass — observe AND control. LangGraph's `interrupt_before` and checkpoint APIs make this possible.
+
+## 8. Visual Graph Editor & Node Inspector
+**Status:** 🔴 Backlog
+- **Concept:** Replace the text-only trace view with an interactive visual graph canvas showing nodes, edges, and live execution state.
+- **Libraries to evaluate:** React Flow (reactflow.dev), Cytoscape.js, D3-dag, or Streamlit's `streamlit-agraph` for quick integration.
+- **Node coloring:** Green (passed), Red (errored), Yellow (running), Grey (pending).
+- **Controls:** Play/Pause/Abort buttons overlaid on the graph view.
+- **Editing:** Ability to add/remove nodes, change iteration counts, and tweak custom node parameters directly from the visual editor.
+- **Why:** A visual graph is essential for understanding and manipulating complex topologies. Text logs alone give no way to restructure the agent's behavior interactively.

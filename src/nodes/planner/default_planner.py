@@ -1,6 +1,7 @@
 from config import TIMEOUT_SENTINEL
 from state import RalphState
 from router import select_model, llm_call
+from runlog import log
 
 PLANNER_SYSTEM = """\
 You are a software architect. Given a coding task, produce a concise implementation plan.
@@ -20,10 +21,8 @@ def planner_node(state: RalphState) -> dict:
     plan = llm_call(state["task"], model, system=PLANNER_SYSTEM)
 
     if plan == TIMEOUT_SENTINEL:
-        # Planner timed out: increment counter so route_decision can hard-fail
-        # after MAX_CONSECUTIVE_TIMEOUTS, but still let executor try with a
-        # minimal plan so we don't lose the iteration entirely on a single hiccup.
         log_entry = f"[iter {state['iterations']}] planner -> model={model} | TIMEOUT"
+        log(f"    planner -> model={model} | TIMEOUT")
         return {
             "plan": f"(no plan — planner timed out)\nTask: {state['task']}",
             "model_used": model,
@@ -32,6 +31,7 @@ def planner_node(state: RalphState) -> dict:
         }
 
     log_entry = f"[iter {state['iterations']}] planner -> model={model}"
+    log(f"    planner -> model={model}")
     return {
         "plan": plan,
         "model_used": model,

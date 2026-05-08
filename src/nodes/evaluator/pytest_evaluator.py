@@ -36,11 +36,14 @@ def _score_from_tests(test_output: str, code: str) -> tuple[float, str]:
     return 0.4, "unclear test result"
 
 
+from runlog import log
+
 def evaluator_node(state: RalphState) -> dict:
     score, reason = _score_from_tests(state["test_output"], state["code"])
     done = score >= SCORE_SUCCESS
 
     log_entry = f"[iter {state['iterations']}] evaluator -> score={score:.2f} done={done} | {reason}"
+    log(f"    evaluator -> score={score:.2f} done={done} | {reason}")
     return {
         "score": score,
         "done": done,
