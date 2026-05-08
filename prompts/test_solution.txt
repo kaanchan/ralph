@@ -1,0 +1,5 @@
+Task: {task}
+
+Write ONLY test_solution.py — pytest-style tests.
+First line must be: from solution import <function_name>
+Use bare def test_...(): functions. No unittest.TestCase.

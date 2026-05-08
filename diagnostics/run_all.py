@@ -10,6 +10,13 @@ Tail the log in a second terminal BEFORE running:
     Git Bash:    tail -f diagnostics/diag_latest.log
 """
 import os, sys
+from pathlib import Path
+
+# Always inject src/ into PYTHONPATH for all subprocesses
+src_dir = str(Path(__file__).parent.parent / "src")
+os.environ["PYTHONPATH"] = f"{src_dir};{os.environ.get('PYTHONPATH', '')}"
+if src_dir not in sys.path:
+    sys.path.insert(0, src_dir)
 
 # Self-relaunch with PYTHONUTF8=1 if not already set so that this process AND
 # all subprocess children use UTF-8 for stdin/stdout/stderr. Without this,
@@ -22,16 +29,16 @@ if not os.getenv("PYTHONUTF8"):
     sys.exit(_sp.run([sys.executable] + sys.argv, env=_env).returncode)
 
 import subprocess, datetime, shutil, time, threading
-from pathlib import Path
 
 DIAGS = [
-    ("D1", "d1_ollama.py",     "Ollama server + model"),
-    ("D2", "d2_litellm.py",    "LiteLLM -> Ollama"),
-    ("D3",   "d3_aider.py",          "Aider writes a file"),
-    ("D3.5", "d3_5_executor_env.py", "Executor environment completeness"),
-    ("D4",   "d4_langgraph.py",      "LangGraph graph streams"),
-    ("D5", "d5_langsmith.py",  "LangSmith tracing"),
-    ("D6", "d6_ralph_loop.py", "Full RALPH loop (slow ~3 min)"),
+    ("D1",    "d1_ollama.py",           "Ollama server + model"),
+    ("D_model", "d_model.py",           "Direct local model capability (raw Ollama API)"),
+    ("D2",    "d2_litellm.py",          "LiteLLM -> Ollama"),
+    ("D3",    "d3_aider.py",            "Aider writes a file"),
+    ("D3.5",  "d3_5_executor_env.py",   "Executor environment completeness"),
+    ("D4",    "d4_langgraph.py",        "LangGraph graph streams"),
+    ("D5",    "d5_langsmith.py",        "LangSmith tracing"),
+    ("D6",    "d6_ralph_loop.py",       "Full RALPH loop (slow ~3 min)"),
 ]
 
 SKIP_D6 = "--fast" in sys.argv

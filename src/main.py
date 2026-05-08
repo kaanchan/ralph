@@ -31,7 +31,7 @@ else:
 from memory import save_run, load_runs
 from state import RalphState
 from runlog import reset_log
-from config import RALPH_LOG_PATH, MAX_CONSECUTIVE_TIMEOUTS
+from config import RALPH_LOG_PATH, AIDER_LOG_PATH, MAX_CONSECUTIVE_TIMEOUTS
 
 # legacy_windows=False disables the cp1252 Windows renderer; safe=True
 # means unknown chars are replaced instead of crashing.
@@ -137,8 +137,9 @@ def main() -> None:
     reset_log()
     console.print(Panel(
         f"[bold]Task:[/bold] {args.task}\n[dim]Repo:[/dim] {repo_dir}\n"
-        f"[dim]Live log:[/dim] {RALPH_LOG_PATH}\n"
-        f"[dim]Tail:[/dim]     Get-Content -Wait \"{RALPH_LOG_PATH}\"",
+        f"[dim]Run log:[/dim]   {RALPH_LOG_PATH}\n"
+        f"[dim]Aider log:[/dim] {AIDER_LOG_PATH}\n"
+        f"[dim]Tail:[/dim]      Get-Content -Wait \"{RALPH_LOG_PATH}\"",
         border_style="blue",
     ))
     console.print("[dim]Streaming node-by-node output below...[/dim]\n")

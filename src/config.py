@@ -26,17 +26,22 @@ SCORE_SUCCESS = 0.75        # evaluator score that counts as done
 MAX_CONSECUTIVE_TIMEOUTS = 2  # 2 timeouts in a row → hard fail (don't burn the loop)
 
 # ── Timeouts (seconds, env-overridable) ──────────────────────────────────────
-LLM_TIMEOUT_SHORT = int(os.getenv("RALPH_TIMEOUT_LLM",   30))   # planner / single LLM call
-AIDER_TIMEOUT     = int(os.getenv("RALPH_TIMEOUT_AIDER", 90))   # Aider subprocess incl. startup
-GIT_TIMEOUT       = int(os.getenv("RALPH_TIMEOUT_GIT",   10))
-SILENT_WARN_AFTER = int(os.getenv("RALPH_SILENT_WARN",   15))   # warn (don't kill) at this point
+LLM_TIMEOUT_SHORT  = int(os.getenv("RALPH_TIMEOUT_LLM",        30))   # planner / single LLM call
+LOCAL_MODEL_TIMEOUT= int(os.getenv("RALPH_TIMEOUT_LOCAL",      180))  # direct Ollama generation (longer for complex prompts)
+AIDER_TIMEOUT      = int(os.getenv("RALPH_TIMEOUT_AIDER",       90))  # Aider subprocess incl. startup
+GIT_TIMEOUT        = int(os.getenv("RALPH_TIMEOUT_GIT",         10))
+SILENT_WARN_AFTER  = int(os.getenv("RALPH_SILENT_WARN",         15))  # warn (don't kill) at this point
 
 # Sentinel returned by router/executor on timeout. Evaluator detects it.
 TIMEOUT_SENTINEL = "<<RALPH_TIMEOUT>>"
 
 # ── Paths ────────────────────────────────────────────────────────────────────
-ROOT = Path(__file__).parent
+ROOT = Path(__file__).parent.parent
 WORKSPACE_DIR = ROOT / "workspace"
+WORKSPACE_DIR.mkdir(exist_ok=True)
 MEMORY_DIR = ROOT / "memory"
 MEMORY_DIR.mkdir(exist_ok=True)
-RALPH_LOG_PATH = Path(os.getenv("RALPH_LOG_PATH", ROOT / "ralph_run.log"))
+LOGS_DIR = ROOT / "logs"
+LOGS_DIR.mkdir(exist_ok=True)
+RALPH_LOG_PATH  = Path(os.getenv("RALPH_LOG_PATH", LOGS_DIR / "ralph_run.log"))
+AIDER_LOG_PATH  = WORKSPACE_DIR / "aider_last.log"  # full Aider stdout, overwritten each run

@@ -1,0 +1,3 @@
+{plan_prefix}Task: {task}
+
+Write ONLY solution.py — the implementation. No tests in this file.
