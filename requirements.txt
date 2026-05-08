@@ -5,3 +5,4 @@ litellm>=1.80
 aider-chat>=0.85
 rich>=14.0
 python-dotenv>=1.0
+streamlit>=1.30.0
