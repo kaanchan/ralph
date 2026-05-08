@@ -1,0 +1,17 @@
+{
+  "id": "run_20260508_100953_4a635e",
+  "task": "Execute task in directory",
+  "start_time": 1778252993.8472662,
+  "end_time": 1778253011.8069603,
+  "duration": 17.959694147109985,
+  "status": "failed: [Errno 22] Invalid argument",
+  "node_ids": [
+    "node_1778252993.945916_planner"
+  ],
+  "metrics": {
+    "total_cost": 0.0,
+    "total_tokens": 0,
+    "iteration": 0,
+    "escalated": false
+  }
+}

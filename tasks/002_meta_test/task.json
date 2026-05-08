@@ -1,0 +1,3 @@
+{
+  "goal": "Write a pure-Python neural network class from scratch (without numpy) that can train on XOR data using backpropagation. Output only the final python code. It must train to under 0.1 loss within 1000 epochs."
+}

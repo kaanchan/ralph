@@ -1,0 +1,20 @@
+{
+  "id": "run_20260508_023621_0217d0",
+  "task": "write a simple fibonacci function",
+  "start_time": 1778225781.8207607,
+  "end_time": 1778226274.1876817,
+  "duration": 492.36692094802856,
+  "status": "failed: [Errno 22] Invalid argument",
+  "node_ids": [
+    "node_1778225781.88744_planner",
+    "node_1778225802.2001202_executor",
+    "node_1778226012.9934435_evaluator",
+    "node_1778226012.9955347_executor"
+  ],
+  "metrics": {
+    "total_cost": 0.0,
+    "total_tokens": 0,
+    "iteration": 2,
+    "escalated": false
+  }
+}

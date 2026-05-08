@@ -15,19 +15,7 @@ from pathlib import Path
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
-# LangGraph's init calls warn_deprecated with stacklevel=4, which bypasses
-# standard filter contexts. Temporarily no-op warnings.warn for the import.
-# Set RALPH_VERBOSE_WARNINGS=1 to restore all warnings (useful for debugging
-# what any layer of the stack is communicating).
-if os.getenv("RALPH_VERBOSE_WARNINGS"):
-    from graph import build_graph
-else:
-    _real_warn = warnings.warn
-    warnings.warn = lambda *a, **kw: None
-    try:
-        from graph import build_graph
-    finally:
-        warnings.warn = _real_warn
+# Removed static graph import. Topology is loaded dynamically per Task Pod.
 from memory import save_run, load_runs
 from state import RalphState
 from runlog import reset_log
@@ -55,6 +43,7 @@ def initial_state(task: str, repo_dir: str) -> RalphState:
         escalated=False,
         done=False,
         timeout_count=0,
+        consultant_advice="",
         log=[],
     )
 
@@ -123,23 +112,60 @@ def print_history() -> None:
 
 def main() -> None:
     p = argparse.ArgumentParser(description="RALPH -- local-first coding agent loop")
-    p.add_argument("task", nargs="?", help="Coding task to execute")
-    p.add_argument("--repo", default=".", help="Path to the target git repo Aider will edit")
-    p.add_argument("--history", action="store_true", help="Show run history")
+    p.add_argument("command", choices=["run", "history"], help="Command: 'run' to start a task, 'history' for global run log")
+    p.add_argument("task_dir", nargs="?", help="Path to the isolated task directory (e.g. tasks/001_fibonacci)")
     args = p.parse_args()
 
-    if args.history:
+    if args.command == "history":
         print_history()
         return
 
-    if not args.task:
-        p.print_help()
+    if not args.task_dir:
+        console.print("[red]Error:[/red] A task directory is required for the 'run' command.")
+        console.print("Example: python src/main.py run tasks/001_fibonacci")
         sys.exit(1)
 
-    repo_dir = str(Path(args.repo).resolve())
+    task_dir = Path(args.task_dir).resolve()
+    
+    # 1. Re-route config paths
+    from config import set_task_directory, ROOT
+    set_task_directory(str(task_dir))
+    
+    # Reload config variables after re-routing
+    from config import RALPH_LOG_PATH, AIDER_LOG_PATH
+    
+    # 1.5 Register Task for Streamlit Dashboard
+    import json
+    import time
+    registry_file = ROOT / ".ralph_registry.json"
+    registry = []
+    if registry_file.exists():
+        try:
+            registry = json.loads(registry_file.read_text())
+        except Exception:
+            pass
+    
+    # Prepend this task to the registry
+    registry = [r for r in registry if r.get("task_dir") != str(task_dir)]
+    registry.insert(0, {"task_dir": str(task_dir), "name": task_dir.name, "timestamp": time.time()})
+    registry_file.write_text(json.dumps(registry[:20], indent=2))  # keep last 20
+
+    # 2. Extract Goal from task.json
+    task_file = task_dir / "task.json"
+    if task_file.exists():
+        task_data = json.loads(task_file.read_text())
+        task_prompt = task_data.get("goal", "Execute task")
+    else:
+        task_prompt = "Execute task in directory"
+        task_dir.mkdir(parents=True, exist_ok=True)
+        task_file.write_text(json.dumps({"goal": task_prompt}, indent=2))
+
+    repo_dir = str(task_dir / "src")
     reset_log()
     console.print(Panel(
-        f"[bold]Task:[/bold] {args.task}\n[dim]Repo:[/dim] {repo_dir}\n"
+        f"[bold]Task Pod:[/bold] {task_dir.name}\n"
+        f"[dim]Goal:[/dim] {task_prompt}\n"
+        f"[dim]Code Dir:[/dim] {repo_dir}\n"
         f"[dim]Run log:[/dim]   {RALPH_LOG_PATH}\n"
         f"[dim]Aider log:[/dim] {AIDER_LOG_PATH}\n"
         f"[dim]Tail:[/dim]      Get-Content -Wait \"{RALPH_LOG_PATH}\"",
@@ -147,39 +173,74 @@ def main() -> None:
     ))
     console.print("[dim]Streaming node-by-node output below...[/dim]\n")
 
-    graph = build_graph()
-    state = initial_state(args.task, repo_dir)
-    export_state(state)
-    tracer.set_task(args.task)
+    # 3. Setup SQLite Checkpointer
+    import sqlite3
+    from langgraph.checkpoint.sqlite import SqliteSaver
+    
+    db_path = task_dir / "checkpoints.sqlite"
+    
+    # 4. Load Dynamic Topology
+    import importlib.util
+    topology_file = task_dir / "topology.py"
+    if not topology_file.exists():
+        console.print(f"[red]Error:[/red] No topology.py found in {task_dir}")
+        sys.exit(1)
+        
+    spec = importlib.util.spec_from_file_location("task_topology", topology_file)
+    task_topology = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(task_topology)
+    
+    if not hasattr(task_topology, "build_graph"):
+        console.print(f"[red]Error:[/red] topology.py must define a build_graph(checkpointer) function.")
+        sys.exit(1)
+        
+    with sqlite3.connect(str(db_path), check_same_thread=False) as conn:
+        memory = SqliteSaver(conn)
+        graph = task_topology.build_graph(checkpointer=memory)
+        
+        # The thread_id allows resuming specific runs.
+        # For a task pod, "1" represents the primary thread of execution.
+        config = {"configurable": {"thread_id": "1"}}
+        
+        state = initial_state(task_prompt, repo_dir)
+        export_state(state)
+        tracer.set_task(task_prompt)
 
-    try:
-        for step in graph.stream(state, stream_mode="updates"):
-            if not step:
-                continue
-            if END in step:
-                log("loop ended by router condition", also_console=True)
-                break
+        try:
+            for step in graph.stream(state, config=config, stream_mode="updates"):
+                if not step:
+                    continue
+                if END in step:
+                    from runlog import log
+                    log("loop ended by router condition", also_console=True)
+                    break
 
-            final = {**state, **{k: v for d in step.values() for k, v in d.items()}}
-            state = {**state, **final}
-            export_state({
-                **state,
-                "status": f"Running {list(step.keys())[0]}..."
-            })
-            
-            node_output = list(step.values())[0]
-            if "log" in node_output and node_output["log"]:
-                console.print(f"   [dim]{node_output['log'][-1]}[/dim]")
+                final = {**state, **{k: v for d in step.values() for k, v in d.items()}}
+                state = {**state, **final}
                 
-        tracer.end_run("success")
-    except Exception as e:
-        tracer.end_run(f"failed: {e}")
-        raise
+                tracer.update_run({
+                    "iteration": state.get("iterations", 0),
+                    "escalated": state.get("escalated", False)
+                })
+                
+                export_state({
+                    **state,
+                    "status": f"Running {list(step.keys())[0]}..."
+                })
+                
+                node_output = list(step.values())[0]
+                if "log" in node_output and node_output["log"]:
+                    console.print(f"   [dim]{node_output['log'][-1]}[/dim]")
+                    
+            tracer.end_run("success")
+        except Exception as e:
+            tracer.end_run(f"failed: {e}")
+            raise
 
-    print_summary(state)
-    export_state({"status": "Finished."})
-    path = save_run(state)
-    console.print(f"\n[dim]Run saved -> {path}[/dim]")
+        print_summary(state)
+        export_state({"status": "Finished."})
+        path = save_run(state)
+        console.print(f"\n[dim]Run saved -> {path}[/dim]")
 
 
 if __name__ == "__main__":

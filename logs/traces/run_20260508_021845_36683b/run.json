@@ -2,9 +2,9 @@
   "id": "run_20260508_021845_36683b",
   "task": "write a simple fibonacci function",
   "start_time": 1778224725.8001845,
-  "end_time": null,
-  "duration": null,
-  "status": "running",
+  "end_time": 1778224901.4406044,
+  "duration": 175.64041996002197,
+  "status": "success",
   "node_ids": [
     "node_1778224725.8744931_planner",
     "node_1778224739.6750581_executor",
@@ -16,7 +16,8 @@
     "node_1778224832.4306722_executor",
     "node_1778224860.2847703_evaluator",
     "node_1778224860.28688_escalate",
-    "node_1778224860.287935_executor"
+    "node_1778224860.287935_executor",
+    "node_1778224901.4385061_evaluator"
   ],
   "metrics": {
     "total_cost": 0.0,

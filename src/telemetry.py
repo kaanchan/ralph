@@ -104,6 +104,11 @@ class TraceManager:
         self.run_state["task"] = task
         self._sync_run()
 
+    def update_run(self, metrics: dict):
+        if metrics:
+            self.run_state["metrics"].update(metrics)
+            self._sync_run()
+
     def _sync_run(self):
         self._enqueue(self._write_json, self.run_dir / "run.json", self.run_state.copy())
 
@@ -137,6 +142,14 @@ class TraceManager:
             self._enqueue(self._write_json, self.nodes_dir / f"{node['id']}.json", node.copy())
 
     def start_tool(self, node_name: str, tool_name: str, inputs: str, flags: dict = None) -> str:
+        # Auto-attach to the latest running node if explicit parent isn't found
+        if node_name not in self.active_nodes and self.run_state["node_ids"]:
+            latest_id = self.run_state["node_ids"][-1]
+            for name, node in self.active_nodes.items():
+                if node["id"] == latest_id and node["status"] == "running":
+                    node_name = name
+                    break
+                    
         span_id = f"tool_{uuid.uuid4().hex[:8]}"
         tool = {
             "id": span_id,

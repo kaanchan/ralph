@@ -71,7 +71,7 @@ def wrap_node(name, node_func):
     return wrapper
 
 
-def build_graph() -> "CompiledGraph":
+def build_graph(checkpointer=None):
     g = StateGraph(RalphState)
 
     g.add_node("planner", wrap_node("planner", planner_node))
@@ -94,4 +94,4 @@ def build_graph() -> "CompiledGraph":
         },
     )
 
-    return g.compile()
+    return g.compile(checkpointer=checkpointer)

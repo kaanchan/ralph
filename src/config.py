@@ -48,5 +48,19 @@ TOOLS_DEBUG_PATH = LOGS_DIR / "tools_debug.log"
 RALPH_VERBOSE = os.getenv("RALPH_VERBOSE", "0") == "1"
 AIDER_LOG_PATH  = WORKSPACE_DIR / "aider_last.log"  # full Aider stdout, overwritten each run
 
+def set_task_directory(task_dir: str):
+    """Dynamically re-routes the global workspace and logs to a Task Pod."""
+    global WORKSPACE_DIR, LOGS_DIR, RALPH_LOG_PATH, AIDER_LOG_PATH
+    task_path = Path(task_dir).absolute()
+    
+    WORKSPACE_DIR = task_path / "src"
+    WORKSPACE_DIR.mkdir(parents=True, exist_ok=True)
+    
+    LOGS_DIR = task_path / "traces"
+    LOGS_DIR.mkdir(parents=True, exist_ok=True)
+    
+    RALPH_LOG_PATH = LOGS_DIR / "ralph_run.log"
+    AIDER_LOG_PATH = WORKSPACE_DIR / "aider_last.log"
+
 # Telemetry limits
 MAX_TOOL_PAYLOAD_KB = int(os.getenv("RALPH_MAX_PAYLOAD_KB", "100"))

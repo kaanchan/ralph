@@ -12,6 +12,7 @@ class RalphState(TypedDict):
     iterations: int         # how many executor->evaluator cycles have run
     model_used: str         # which model is active this cycle
     escalated: bool         # True once we've switched to the cloud model
-    done: bool              # terminal flag set by evaluator
-    timeout_count: int      # consecutive timeouts; resets on any successful call
-    log: list[str]          # human-readable trail of decisions
+    done: bool              # True if score >= SCORE_SUCCESS
+    timeout_count: int      # Number of consecutive timeouts
+    consultant_advice: str  # Diagnostics from the cloud node
+    log: list[str]          # Human-readable decision trail of decisions

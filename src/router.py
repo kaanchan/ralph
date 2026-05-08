@@ -82,8 +82,12 @@ def route_decision(state: RalphState) -> str:
     looping and return so the user sees the failure instead of burning quota.
     """
     if state.get("timeout_count", 0) >= MAX_CONSECUTIVE_TIMEOUTS:
-        log(f"route: HARD-FAIL — {state['timeout_count']} consecutive timeouts")
-        return END
+        if not state.get("escalated"):
+            log(f"route: Circuit Breaker — {state['timeout_count']} timeouts -> escalating to cloud")
+            return "escalate"
+        else:
+            log(f"route: HARD-FAIL — {state['timeout_count']} consecutive timeouts on cloud model")
+            return END
 
     if state["done"] or state["score"] >= 0.75:
         return END
