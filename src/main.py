@@ -32,6 +32,8 @@ from memory import save_run, load_runs
 from state import RalphState
 from runlog import reset_log
 from state_exporter import export_state
+from telemetry import tracer
+from langgraph.graph import END
 from config import RALPH_LOG_PATH, AIDER_LOG_PATH, MAX_CONSECUTIVE_TIMEOUTS
 
 # legacy_windows=False disables the cp1252 Windows renderer; safe=True
@@ -148,30 +150,31 @@ def main() -> None:
     graph = build_graph()
     state = initial_state(args.task, repo_dir)
     export_state(state)
+    tracer.set_task(args.task)
 
-    # stream() yields one dict per node as it completes — full visibility
-    for step in graph.stream(state, stream_mode="updates"):
-        for node_name, node_output in step.items():
-            console.print(f"[bold cyan]>> {node_name}[/bold cyan]", end="  ")
-            if "plan" in node_output and node_output["plan"]:
-                console.print(f"plan ready ({len(node_output['plan'])} chars)")
-            elif "code" in node_output and node_output["code"]:
-                lines = node_output["code"].count("\n")
-                console.print(f"code written ({lines} lines)")
-            elif "score" in node_output:
-                console.print(f"score={node_output['score']:.2f}  done={node_output.get('done', False)}")
-            else:
-                console.print(str(list(node_output.keys())))
-            # print the latest log entry if present
-            if node_output.get("log"):
+    try:
+        for step in graph.stream(state, stream_mode="updates"):
+            if not step:
+                continue
+            if END in step:
+                log("loop ended by router condition", also_console=True)
+                break
+
+            final = {**state, **{k: v for d in step.values() for k, v in d.items()}}
+            state = {**state, **final}
+            export_state({
+                **state,
+                "status": f"Running {list(step.keys())[0]}..."
+            })
+            
+            node_output = list(step.values())[0]
+            if "log" in node_output and node_output["log"]:
                 console.print(f"   [dim]{node_output['log'][-1]}[/dim]")
-
-        final = {**state, **{k: v for d in step.values() for k, v in d.items()}}
-        state = {**state, **final}
-        export_state({
-            **state,
-            "status": f"Running {list(step.keys())[0]}..."
-        })
+                
+        tracer.end_run("success")
+    except Exception as e:
+        tracer.end_run(f"failed: {e}")
+        raise
 
     print_summary(state)
     export_state({"status": "Finished."})

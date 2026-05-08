@@ -1,0 +1,17 @@
+{
+  "id": "tool_8fdaaf66",
+  "parent_node": "executor",
+  "name": "ollama [qwen25-coder-14b]",
+  "start_time": 1778224750.3133094,
+  "end_time": 1778224754.5558717,
+  "duration": 4.242562294006348,
+  "status": "success",
+  "flags": {
+    "budget": 180,
+    "num_ctx": 2048,
+    "temperature": 0
+  },
+  "inputs": "Task: write a simple fibonacci function\n\nWrite ONLY test_solution.py \u2014 pytest-style tests.\nFirst line must be: from solution import <function_name>\nUse bare def test_...(): functions. No unittest.TestCase.",
+  "outputs": " No if __name__ == '__main__':\n```python\nfrom solution import fibonacci\n\ndef test_fibonacci_zero():\n    assert fibonacci(0) == 0\n\ndef test_fibonacci_one():\n    assert fibonacci(1) == 1\n\ndef test_fibonacci_two():\n    assert fibonacci(2) == 1\n\ndef test_fibonacci_three():\n    assert fibonacci(3) == 2\n\ndef test_fibonacci_ten():\n    assert fibonacci(10) == 55\n```",
+  "metrics": {}
+}

@@ -36,6 +36,7 @@ from router import select_model
 from state import RalphState
 from hardware import get_free_vram_mb
 from model_registry import calculate_safe_ctx, get_model_profile
+from telemetry import tracer
 
 def load_prompt(filename: str) -> str:
     path = Path(__file__).parent.parent / "prompts" / filename
@@ -83,10 +84,12 @@ def run_tests(repo_dir: Path) -> tuple[str, bool]:
         [sys.executable, "-m", "pytest", "--tb=short", "-q"],
         [sys.executable, "-m", "unittest", "discover", "-q"],
     ):
+        span_id = tracer.start_tool("executor", "pytest", " ".join(cmd))
         result = subprocess.run(
             cmd, cwd=str(repo_dir), capture_output=True, text=True, timeout=60,
         )
         output = (result.stdout + result.stderr).strip()
+        tracer.end_tool(span_id, "success" if result.returncode == 0 else "failed", output)
         if output:
             log_tool("pytest", f"CMD: {' '.join(cmd)}\n{output}")
             return output, result.returncode == 0
@@ -227,14 +230,23 @@ def _write_file_local(message: str, model: str, target: Path, label: str) -> tup
     
     log(f"local -> {label} model={model} timeout={LOCAL_MODEL_TIMEOUT}s ctx={safe_ctx} file={target.name}")
     t0 = time.time()
+    flags = {
+        "budget": LOCAL_MODEL_TIMEOUT,
+        "num_ctx": safe_ctx,
+        "temperature": 0
+    }
+    span_id = tracer.start_tool("executor", f"ollama [{model_name}]", message, flags=flags)
 
     try:
         response = _call_ollama(model_name, system_prompt, message, budget=LOCAL_MODEL_TIMEOUT, num_ctx=safe_ctx)
+        tracer.end_tool(span_id, "success", response)
     except TimeoutError as e:
+        tracer.end_tool(span_id, "failed", str(e))
         loud_timeout(f"local model {label} model={model}", LOCAL_MODEL_TIMEOUT, extra=str(e))
         _force_unload_ollama(model_name)
         return "", f"{TIMEOUT_SENTINEL} local model exceeded {LOCAL_MODEL_TIMEOUT}s"
     except Exception as e:
+        tracer.end_tool(span_id, "failed", str(e))
         log(f"  local | {label} ERROR: {e}", also_console=True)
         return str(e), ""
 
@@ -294,6 +306,11 @@ def _write_file_cloud(message: str, model: str, target: Path,
     """Write a single file using Aider (cloud models). Returns (stdout, error_or_empty)."""
     log(f"aider -> {label} model={model} timeout={AIDER_TIMEOUT}s file={target.name}")
     cmd = _aider_cmd(message, model, target)
+    flags = {
+        "timeout": AIDER_TIMEOUT,
+        "cmd": " ".join(cmd)
+    }
+    span_id = tracer.start_tool("executor", f"aider [{model}]", message, flags=flags)
 
     proc = subprocess.Popen(
         cmd, cwd=str(repo_dir),
@@ -331,6 +348,7 @@ def _write_file_cloud(message: str, model: str, target: Path,
                 try: proc.kill()
                 except Exception: pass
                 rt.join(timeout=2)
+                tracer.end_tool(span_id, "failed", "".join(captured) + "\nTIMEOUT")
                 return "".join(captured), f"{TIMEOUT_SENTINEL} aider exceeded {AIDER_TIMEOUT}s"
             time.sleep(0.5)
     except KeyboardInterrupt:
@@ -344,8 +362,10 @@ def _write_file_cloud(message: str, model: str, target: Path,
         rt.join(timeout=2)
 
     rc = proc.returncode
-    log(f"aider <- {label} finished rc={rc}")
     full_output = "".join(captured)
+    tracer.end_tool(span_id, "success" if rc == 0 else "failed", full_output)
+    
+    log(f"aider <- {label} finished rc={rc}")
     try:
         with open(AIDER_LOG_PATH, "a", encoding="utf-8", errors="replace") as f:
             f.write(f"\n=== {label} ===\n{full_output}\n")

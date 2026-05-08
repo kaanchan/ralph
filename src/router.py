@@ -4,6 +4,7 @@ Hardened: every llm_call has a hard timeout. On timeout we don't raise — we
 return TIMEOUT_SENTINEL so the evaluator can score 0 and the loop can
 escalate, instead of crashing the whole graph.
 """
+import time
 import litellm
 from langgraph.graph import END
 from config import (
@@ -13,6 +14,7 @@ from config import (
 )
 from runlog import log, loud_timeout
 from state import RalphState
+from telemetry import tracer
 
 litellm.set_verbose = bool(RALPH_VERBOSE)
 
@@ -29,38 +31,45 @@ def select_model(state: RalphState) -> str:
 def llm_call(prompt: str, model: str, system: str = "") -> str:
     """Unified LLM call through LiteLLM. Returns TIMEOUT_SENTINEL on timeout
     (never raises Timeout to the caller — caller routes on the sentinel)."""
-    messages = []
-    if system:
-        messages.append({"role": "system", "content": system})
-    messages.append({"role": "user", "content": prompt})
+    log(f"llm -> {model} (timeout={LLM_TIMEOUT_SHORT}s)")
+    t0 = time.time()
 
-    def _call(m: str) -> str:
-        log(f"llm_call -> {m} (timeout={LLM_TIMEOUT_SHORT}s, prompt={len(prompt)} chars)")
-        kwargs = dict(
-            model=m, messages=messages, temperature=0.2,
-            timeout=LLM_TIMEOUT_SHORT, num_retries=0,
-        )
-        if m.startswith("ollama/"):
-            kwargs["api_base"] = OLLAMA_API_BASE
-        response = litellm.completion(**kwargs)
-        out = response.choices[0].message.content.strip()
-        log(f"llm_call <- {m} ({len(out)} chars)")
-        return out
+    kwargs = dict(
+        model=model,
+        messages=[
+            {"role": "system", "content": system},
+            {"role": "user", "content": prompt},
+        ],
+        temperature=0.2,
+        timeout=LLM_TIMEOUT_SHORT,
+        num_retries=0,
+    )
+    if model.startswith("ollama/"):
+        kwargs["api_base"] = OLLAMA_API_BASE
+        
+    flags = kwargs.copy()
+    flags.pop("messages", None)
+    span_id = tracer.start_tool("llm", f"litellm [{model}]", f"{system}\n\n{prompt}", flags=flags)
 
     try:
-        return _call(model)
-    except litellm.Timeout:
+        response = litellm.completion(**kwargs)
+        out = response.choices[0].message.content.strip()
+        usage = dict(response.usage) if hasattr(response, "usage") and response.usage else {}
+        tracer.end_tool(span_id, "success", out, metrics=usage)
+        log(f"llm <- {model} finished in {time.time()-t0:.1f}s ({len(out)} chars)")
+        return out
+
+    except litellm.Timeout as e:
+        tracer.end_tool(span_id, "failed", str(e))
         loud_timeout(f"llm_call model={model}", LLM_TIMEOUT_SHORT)
         return TIMEOUT_SENTINEL
+
     except Exception as e:
+        tracer.end_tool(span_id, "failed", str(e))
         # Cloud failure → fall back to local; local failure → bubble up
         if model != LOCAL_MODEL:
             log(f"llm_call: cloud {model} failed ({e.__class__.__name__}), trying local")
-            try:
-                return _call(LOCAL_MODEL)
-            except litellm.Timeout:
-                loud_timeout(f"llm_call fallback model={LOCAL_MODEL}", LLM_TIMEOUT_SHORT)
-                return TIMEOUT_SENTINEL
+            return TIMEOUT_SENTINEL
         log(f"llm_call: {model} raised {e.__class__.__name__}: {e}")
         raise
 

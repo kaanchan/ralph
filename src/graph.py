@@ -11,6 +11,7 @@ from state import RalphState
 from router import select_model, llm_call, route_decision
 from executor import executor_node
 from evaluator import evaluator_node
+from telemetry import tracer
 
 PLANNER_SYSTEM = """\
 You are a software architect. Given a coding task, produce a concise implementation plan.
@@ -61,13 +62,22 @@ def escalate_node(state: RalphState) -> dict:
     }
 
 
+def wrap_node(name, node_func):
+    def wrapper(state):
+        tracer.start_node(name)
+        result = node_func(state)
+        tracer.end_node(name, status="success")
+        return result
+    return wrapper
+
+
 def build_graph() -> "CompiledGraph":
     g = StateGraph(RalphState)
 
-    g.add_node("planner", planner_node)
-    g.add_node("executor", executor_node)
-    g.add_node("evaluator", evaluator_node)
-    g.add_node("escalate", escalate_node)
+    g.add_node("planner", wrap_node("planner", planner_node))
+    g.add_node("executor", wrap_node("executor", executor_node))
+    g.add_node("evaluator", wrap_node("evaluator", evaluator_node))
+    g.add_node("escalate", wrap_node("escalate", escalate_node))
 
     g.set_entry_point("planner")
     g.add_edge("planner", "executor")

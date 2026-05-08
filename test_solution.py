@@ -1,11 +1,16 @@
-from solution import explain_meaning_of_life
+from solution import fibonacci
 
-def test_explain_meaning_of_life():
-    # Arrange
-    expected = "The meaning of life is a philosophical question concerning the significance and purpose of human existence."
+def test_fibonacci_zero():
+    assert fibonacci(0) == 0
 
-    # Act
-    result = explain_meaning_of_life()
+def test_fibonacci_one():
+    assert fibonacci(1) == 1
 
-    # Assert
-    assert result == expected
+def test_fibonacci_two():
+    assert fibonacci(2) == 1
+
+def test_fibonacci_three():
+    assert fibonacci(3) == 2
+
+def test_fibonacci_ten():
+    assert fibonacci(10) == 55

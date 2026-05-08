@@ -1,0 +1,15 @@
+{
+  "id": "run_20260508_021749_ced31f",
+  "task": "write a simple fibonacci function",
+  "start_time": 1778224669.4462032,
+  "end_time": 1778224686.9666839,
+  "duration": 17.520480632781982,
+  "status": "failed: name 'END' is not defined",
+  "node_ids": [
+    "node_1778224669.5264993_planner"
+  ],
+  "metrics": {
+    "total_cost": 0.0,
+    "total_tokens": 0
+  }
+}
