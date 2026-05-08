@@ -1,15 +1,2 @@
-# solution.py
-
-def fibonacci(n):
-    """Return the nth Fibonacci number."""
-    if n <= 0:
-        raise ValueError("n must be a positive integer")
-    elif n == 1:
-        return 0
-    elif n == 2:
-        return 1
-    else:
-        a, b = 0, 1
-        for _ in range(2, n):
-            a, b = b, a + b
-        return b
+def meaning_of_life():
+    return "The meaning of life is a philosophical question that has been debated by scholars, philosophers, and theologians throughout history. It is often considered to be a fundamental human quest for understanding."
