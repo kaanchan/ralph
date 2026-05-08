@@ -31,6 +31,7 @@ else:
 from memory import save_run, load_runs
 from state import RalphState
 from runlog import reset_log
+from state_exporter import export_state
 from config import RALPH_LOG_PATH, AIDER_LOG_PATH, MAX_CONSECUTIVE_TIMEOUTS
 
 # legacy_windows=False disables the cp1252 Windows renderer; safe=True
@@ -146,6 +147,7 @@ def main() -> None:
 
     graph = build_graph()
     state = initial_state(args.task, repo_dir)
+    export_state(state)
 
     # stream() yields one dict per node as it completes — full visibility
     for step in graph.stream(state, stream_mode="updates"):
@@ -166,8 +168,13 @@ def main() -> None:
 
         final = {**state, **{k: v for d in step.values() for k, v in d.items()}}
         state = {**state, **final}
+        export_state({
+            **state,
+            "status": f"Running {list(step.keys())[0]}..."
+        })
 
     print_summary(state)
+    export_state({"status": "Finished."})
     path = save_run(state)
     console.print(f"\n[dim]Run saved -> {path}[/dim]")
 

@@ -31,7 +31,7 @@ from config import (
     OLLAMA_API_BASE, AIDER_TIMEOUT, LOCAL_MODEL_TIMEOUT, GIT_TIMEOUT,
     SILENT_WARN_AFTER, TIMEOUT_SENTINEL, AIDER_LOG_PATH,
 )
-from runlog import log, loud_timeout
+from runlog import log, loud_timeout, log_tool
 from router import select_model
 from state import RalphState
 from hardware import get_free_vram_mb
@@ -88,6 +88,7 @@ def run_tests(repo_dir: Path) -> tuple[str, bool]:
         )
         output = (result.stdout + result.stderr).strip()
         if output:
+            log_tool("pytest", f"CMD: {' '.join(cmd)}\n{output}")
             return output, result.returncode == 0
     return "(no tests found)", False
 
@@ -241,6 +242,7 @@ def _write_file_local(message: str, model: str, target: Path, label: str) -> tup
     log(f"local <- {label} finished in {elapsed:.1f}s ({len(response)} chars)")
 
     # Log raw response for diagnosis
+    log_tool("ollama", f"=== {label} ({elapsed:.1f}s) ===\nPROMPT:\n{message}\n\nRESPONSE:\n{response}")
     try:
         with open(AIDER_LOG_PATH, "a", encoding="utf-8", errors="replace") as f:
             f.write(f"\n=== {label} ({elapsed:.1f}s) ===\n{response}\n")

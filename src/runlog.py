@@ -8,7 +8,8 @@ import json
 import sys
 import urllib.request
 from pathlib import Path
-from config import OLLAMA_API_BASE, RALPH_LOG_PATH
+from config import OLLAMA_API_BASE, RALPH_LOG_PATH, RALPH_VERBOSE, TOOLS_DEBUG_PATH
+from state_exporter import add_log_line
 
 
 def _ts() -> str:
@@ -23,6 +24,9 @@ def log(msg: str, *, also_console: bool = True) -> None:
             f.write(line)
     except OSError:
         pass
+        
+    add_log_line(line)
+    
     if also_console:
         try:
             sys.stdout.write(line)
@@ -38,6 +42,21 @@ def reset_log() -> None:
             f"=== RALPH run started {datetime.datetime.now().isoformat(timespec='seconds')} ===\n",
             encoding="utf-8",
         )
+        if RALPH_VERBOSE:
+            Path(TOOLS_DEBUG_PATH).write_text(
+                f"=== TOOLS DEBUG LOG started {datetime.datetime.now().isoformat(timespec='seconds')} ===\n",
+                encoding="utf-8",
+            )
+    except OSError:
+        pass
+
+def log_tool(tool_name: str, msg: str) -> None:
+    """Logs raw tool output to tools_debug.log if RALPH_VERBOSE is true."""
+    if not RALPH_VERBOSE:
+        return
+    try:
+        with open(TOOLS_DEBUG_PATH, "a", encoding="utf-8", errors="replace") as f:
+            f.write(f"[{_ts()}] [{tool_name}]\n{msg}\n")
     except OSError:
         pass
 

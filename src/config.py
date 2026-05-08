@@ -44,4 +44,6 @@ MEMORY_DIR.mkdir(exist_ok=True)
 LOGS_DIR = ROOT / "logs"
 LOGS_DIR.mkdir(exist_ok=True)
 RALPH_LOG_PATH  = Path(os.getenv("RALPH_LOG_PATH", LOGS_DIR / "ralph_run.log"))
+TOOLS_DEBUG_PATH = LOGS_DIR / "tools_debug.log"
+RALPH_VERBOSE = os.getenv("RALPH_VERBOSE", "0") == "1"
 AIDER_LOG_PATH  = WORKSPACE_DIR / "aider_last.log"  # full Aider stdout, overwritten each run

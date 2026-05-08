@@ -9,11 +9,12 @@ from langgraph.graph import END
 from config import (
     LOCAL_MODEL, CLOUD_MODEL, OLLAMA_API_BASE, ESCALATE_AFTER,
     LLM_TIMEOUT_SHORT, MAX_CONSECUTIVE_TIMEOUTS, TIMEOUT_SENTINEL,
+    RALPH_VERBOSE,
 )
 from runlog import log, loud_timeout
 from state import RalphState
 
-litellm.set_verbose = False
+litellm.set_verbose = bool(RALPH_VERBOSE)
 
 
 def select_model(state: RalphState) -> str:

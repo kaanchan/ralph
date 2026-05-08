@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RALPH TV Dashboard</title>
+    <style>
+        body { margin: 0; padding: 20px; font-family: 'Inter', system-ui, sans-serif; background-color: #0f172a; color: #f8fafc; display: flex; flex-direction: column; height: 100vh; box-sizing: border-box; }
+        .header { background-color: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 15px 20px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .header h1 { margin: 0; font-size: 1.2rem; color: #38bdf8; }
+        .header .badges { display: flex; gap: 10px; }
+        .badge { background-color: #334155; padding: 5px 10px; border-radius: 4px; font-size: 0.9rem; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; flex: 1; overflow: hidden; }
+        .col { display: flex; flex-direction: column; gap: 20px; overflow: hidden; }
+        .panel { background-color: #1e293b; border: 1px solid #334155; border-radius: 8px; display: flex; flex-direction: column; overflow: hidden; }
+        .panel-header { background-color: #0f172a; padding: 10px 15px; font-weight: bold; border-bottom: 1px solid #334155; font-size: 0.9rem; color: #94a3b8; }
+        .panel-body { padding: 15px; overflow-y: auto; flex: 1; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; white-space: pre-wrap; }
+        .logs-panel { border-color: #eab308; }
+        .logs-panel .panel-header { color: #eab308; }
+        .code-panel { border-color: #22c55e; }
+        .code-panel .panel-header { color: #22c55e; }
+        .plan-panel { border-color: #0ea5e9; }
+        .plan-panel .panel-header { color: #0ea5e9; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 id="h-task">Waiting for RALPH...</h1>
+        <div class="badges">
+            <div class="badge">Iteration: <span id="h-iter">0</span></div>
+            <div class="badge">Score: <span id="h-score">0.00</span></div>
+            <div class="badge">Status: <span id="h-status">Offline</span></div>
+        </div>
+    </div>
+    <div class="grid">
+        <div class="col">
+            <div class="panel plan-panel" style="flex: 1;">
+                <div class="panel-header">IMPLEMENTATION PLAN</div>
+                <div class="panel-body" id="b-plan">...</div>
+            </div>
+            <div class="panel code-panel" style="flex: 1;">
+                <div class="panel-header">GENERATED CODE</div>
+                <div class="panel-body" id="b-code">...</div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="panel logs-panel" style="flex: 1;">
+                <div class="panel-header">LIVE LOGS</div>
+                <div class="panel-body" id="b-logs">...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function fetchState() {
+            try {
+                const response = await fetch('/live_state.json');
+                if (!response.ok) return;
+                const state = await response.json();
+                
+                document.getElementById('h-task').textContent = state.task || 'Idle';
+                document.getElementById('h-iter').textContent = state.iterations || 0;
+                document.getElementById('h-score').textContent = (state.score || 0).toFixed(2);
+                document.getElementById('h-status').textContent = state.status || '...';
+                
+                document.getElementById('b-plan').textContent = state.plan || 'Waiting for plan...';
+                document.getElementById('b-code').textContent = state.code || 'Waiting for code...';
+                
+                const logsBody = document.getElementById('b-logs');
+                const wasAtBottom = logsBody.scrollHeight - logsBody.clientHeight <= logsBody.scrollTop + 10;
+                logsBody.textContent = (state.logs || []).join('');
+                if (wasAtBottom) logsBody.scrollTop = logsBody.scrollHeight;
+                
+            } catch (e) {
+                console.debug("Fetch error (expected during writes):", e);
+            }
+        }
+        setInterval(fetchState, 500);
+        fetchState();
+    </script>
+</body>
+</html>
