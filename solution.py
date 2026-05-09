@@ -1,5 +1,6 @@
 # solution.py
 import random
+import math
 
 class NeuralNetwork:
     def __init__(self, input_size, hidden_size, output_size):
@@ -12,9 +13,8 @@ class NeuralNetwork:
         self.weights_hidden_output = [[random.uniform(-1, 1) for _ in range(output_size)] for _ in range(hidden_size)]
         
     def sigmoid(self, x):
-        # Using a fixed value for 'e' as math module is not explicitly allowed and numpy is forbidden.
-        # This constant is sufficient for the task's precision requirements.
-        return 1 / (1 + 2.71828 ** (-x))
+        # Using math.exp for a more precise exponential calculation.
+        return 1 / (1 + math.exp(-x))
     
     def sigmoid_derivative(self, x):
         return x * (1 - x)

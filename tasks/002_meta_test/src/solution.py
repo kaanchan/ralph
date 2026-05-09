@@ -56,23 +56,3 @@ class NeuralNetwork:
             if total_error < 0.1:
                 break
 
-# XOR data
-data = [
-    [0, 0],
-    [0, 1],
-    [1, 0],
-    [1, 1]
-]
-
-labels = [
-    [0],
-    [1],
-    [1],
-    [0]
-]
-
-# Initialize the neural network
-nn = NeuralNetwork(input_size=2, hidden_size=4, output_size=1)
-
-# Train the neural network
-nn.train(data, labels, epochs=1000, learning_rate=0.5)
