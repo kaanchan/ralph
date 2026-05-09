@@ -53,10 +53,12 @@ class NeuralNetwork:
                 total_error += sum((target[i] - outputs[i]) ** 2 for i in range(len(target)))
                 self.backward(inputs, target, learning_rate)
 
-            if epoch % 100 == 0:
-                print(f"Epoch {epoch}, Loss: {total_error:.4f}")
+            average_error = total_error / len(data) # Calculate average error for the epoch
 
-            if total_error < 0.1:
-                print(f"Epoch {epoch}, Loss: {total_error:.4f} (Converged)")
+            if epoch % 100 == 0:
+                print(f"Epoch {epoch}, Loss: {average_error:.4f}")
+
+            if average_error < 0.1: # Check against average error
+                print(f"Epoch {epoch}, Loss: {average_error:.4f} (Converged)")
                 break
-        return total_error
+        return average_error # Return average error

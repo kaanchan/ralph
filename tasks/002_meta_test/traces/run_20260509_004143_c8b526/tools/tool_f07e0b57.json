@@ -1,0 +1,13 @@
+{
+  "id": "tool_f07e0b57",
+  "parent_node": "executor",
+  "name": "pytest",
+  "start_time": 1778305961.4983027,
+  "end_time": 1778305962.22684,
+  "duration": 0.7285373210906982,
+  "status": "failed",
+  "flags": {},
+  "inputs": "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\.venv\\Scripts\\python.exe -m pytest test_solution.py --tb=short -q",
+  "outputs": "F                                                                        [100%]\n================================== FAILURES ===================================\n______________________________ test_xor_training ______________________________\ntest_solution.py:48: in test_xor_training\n    assert current_loss < min_loss, f\"Neural network failed to train XOR under {min_loss} loss within {epochs} epochs. Final loss: {current_loss}\"\nE   AssertionError: Neural network failed to train XOR under 0.1 loss within 1000 epochs. Final loss: 0.16493366095168055\nE   assert 0.16493366095168055 < 0.1\n=========================== short test summary info ===========================\nFAILED test_solution.py::test_xor_training - AssertionError: Neural network f...\n1 failed in 0.06s",
+  "metrics": {}
+}
