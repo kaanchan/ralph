@@ -1,0 +1,19 @@
+{
+  "id": "tool_812ce419",
+  "parent_node": "planner",
+  "name": "litellm [ollama/qwen25-coder-14b]",
+  "start_time": 1778305305.4247065,
+  "end_time": 1778305399.5583963,
+  "duration": 94.1336898803711,
+  "status": "failed",
+  "flags": {
+    "model": "ollama/qwen25-coder-14b",
+    "temperature": 0.2,
+    "timeout": 90,
+    "num_retries": 0,
+    "api_base": "http://localhost:11434"
+  },
+  "inputs": "You are a software architect. Given a coding task, produce a concise implementation plan.\nBe specific about: language, file structure, key functions, and success criteria.\nKeep the plan under 200 words.\n\nREQUIRED OUTPUT FORMAT \u2014 non-negotiable:\n- Implementation goes in solution.py\n- Tests go in a SEPARATE file test_solution.py using pytest-style functions (def test_...():)\n- test_solution.py MUST start with: from solution import <the_function_name>\n- Do NOT use if __name__ == \"__main__\": style tests \u2014 the evaluator cannot score them\n- Do NOT use unittest.TestCase \u2014 use bare pytest functions only\n\n\nWrite a pure-Python neural network class from scratch (without numpy) that can train on XOR data using backpropagation. Output only the final python code. It must train to under 0.1 loss within 1000 epochs.",
+  "outputs": "litellm.APIConnectionError: OllamaException - litellm.Timeout: Connection timed out after 90.0 seconds.",
+  "metrics": {}
+}

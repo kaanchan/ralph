@@ -1,4 +1,3 @@
-# solution.py
 import random
 
 class NeuralNetwork:
@@ -12,8 +11,6 @@ class NeuralNetwork:
         self.weights_hidden_output = [[random.uniform(-1, 1) for _ in range(output_size)] for _ in range(hidden_size)]
         
     def sigmoid(self, x):
-        # Using a fixed value for 'e' as math module is not explicitly allowed and numpy is forbidden.
-        # This constant is sufficient for the task's precision requirements.
         return 1 / (1 + 2.71828 ** (-x))
     
     def sigmoid_derivative(self, x):
@@ -45,18 +42,37 @@ class NeuralNetwork:
             for k in range(self.output_size):
                 self.weights_hidden_output[j][k] += learning_rate * self.hidden_layer_output[j] * output_delta[k]
     
-    def train(self, data, labels, learning_rate, epochs):
+    def train(self, data, labels, epochs, learning_rate):
         for epoch in range(epochs):
             total_error = 0
             for inputs, target in zip(data, labels):
                 outputs = self.forward(inputs)
                 total_error += sum((target[i] - outputs[i]) ** 2 for i in range(len(target)))
                 self.backward(inputs, target, learning_rate)
-
+            
             if epoch % 100 == 0:
-                print(f"Epoch {epoch}, Loss: {total_error:.4f}")
-
+                print(f"Epoch {epoch}, Loss: {total_error}")
+                
             if total_error < 0.1:
-                print(f"Epoch {epoch}, Loss: {total_error:.4f} (Converged)")
                 break
-        return total_error
+
+# XOR data
+data = [
+    [0, 0],
+    [0, 1],
+    [1, 0],
+    [1, 1]
+]
+
+labels = [
+    [0],
+    [1],
+    [1],
+    [0]
+]
+
+# Initialize the neural network
+nn = NeuralNetwork(input_size=2, hidden_size=4, output_size=1)
+
+# Train the neural network
+nn.train(data, labels, epochs=1000, learning_rate=0.5)

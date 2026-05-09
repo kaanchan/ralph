@@ -1,0 +1,17 @@
+{
+  "id": "tool_5f68e9c0",
+  "parent_node": "executor",
+  "name": "ollama [qwen25-coder-14b]",
+  "start_time": 1778305425.4335098,
+  "end_time": 1778305605.4394615,
+  "duration": 180.0059516429901,
+  "status": "failed",
+  "flags": {
+    "budget": 180,
+    "num_ctx": 2048,
+    "temperature": 0
+  },
+  "inputs": "Task: CRITICAL WARNING: Your previous generation timed out (likely infinite loop). Provide ONLY the raw code. Do not explain anything.\n\nWrite a pure-Python neural network class from scratch (without numpy) that can train on XOR data using backpropagation. Output only the final python code. It must train to under 0.1 loss within 1000 epochs.\n\nWrite ONLY test_solution.py \u2014 pytest-style tests.\nFirst line must be: from solution import <function_name>\nUse bare def test_...(): functions. No unittest.TestCase.",
+  "outputs": "local model generation exceeded 180s budget (8082 tokens / 27977 chars produced)",
+  "metrics": {}
+}

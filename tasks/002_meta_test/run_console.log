@@ -1,0 +1,64 @@
+C:\Users\kaanchan\Projects\AI\ralph\.venv\Lib\site-packages\langgraph\checkpoint\serde\encrypted.py:5: LangChainPendingDeprecationWarning: The default value of `allowed_objects` will change in a future version. Pass an explicit value (e.g., allowed_objects='messages' or allowed_objects='core') to suppress this warning.
+  from langgraph.checkpoint.serde.jsonplus import JsonPlusSerializer
+[34m+------------------------------------------------------------------------------+[0m
+[34m|[0m [1mTask Pod:[0m 002_meta_test                                                      [34m|[0m
+[34m|[0m [2mGoal:[0m Write a pure-Python neural network class from scratch (without numpy)  [34m|[0m
+[34m|[0m that can train on XOR data using backpropagation. Output only the final      [34m|[0m
+[34m|[0m python code. It must train to under 0.1 loss within 1000 epochs.             [34m|[0m
+[34m+------------------------------------------------------------------------------+[0m
+[00:41:45] llm -> ollama/qwen25-coder-14b (timeout=90s)
+
+[1;31mGive Feedback / Get Help: https://github.com/BerriAI/litellm/issues/new[0m
+LiteLLM.Info: If you need to debug this error, use `litellm._turn_on_debug()'.
+
+[00:43:19] 
+********************************************************
+[00:43:19] *** RALPH TIMEOUT � llm_call model=ollama/qwen25-coder-14b
+[00:43:19] ***   budget : 90s
+[00:43:21] ***   ollama : ollama loaded: qwen25-coder-14b:latest(9.7GB)
+[00:43:21] ********************************************************
+
+[00:43:21]     planner -> model=ollama/qwen25-coder-14b | TIMEOUT
+   [2m planner -> model=ollama/qwen25-coder-14b | TIMEOUT[0m
+[00:43:21]   ollama | cooldown (2s) to prevent HTTP 500...
+[00:43:23] local -> solution.py model=ollama/qwen25-coder-14b timeout=180s ctx=2048 file=solution.py
+[00:43:38]   ollama | generating... 15s elapsed, 430 tokens, 1904 chars so far
+[00:43:45] local <- solution.py finished in 21.6s (3161 chars)
+[00:43:45]   local | solution.py WRITTEN (78 lines)
+[00:43:45]   solution.py: WRITTEN
+[00:43:45] local -> test_solution.py model=ollama/qwen25-coder-14b timeout=180s ctx=2048 file=test_solution.py
+[00:44:00]   ollama | generating... 15s elapsed, 607 tokens, 2133 chars so far
+[00:44:15]   ollama | generating... 30s elapsed, 1303 tokens, 4548 chars so far
+[00:44:30]   ollama | generating... 45s elapsed, 1985 tokens, 6936 chars so far
+[00:44:45]   ollama | generating... 60s elapsed, 2662 tokens, 9265 chars so far
+[00:45:00]   ollama | generating... 75s elapsed, 3344 tokens, 11597 chars so far
+[00:45:15]   ollama | generating... 90s elapsed, 4019 tokens, 13931 chars so far
+[00:45:30]   ollama | generating... 105s elapsed, 4699 tokens, 16274 chars so far
+[00:45:45]   ollama | generating... 120s elapsed, 5384 tokens, 18655 chars so far
+[00:46:00]   ollama | generating... 135s elapsed, 6066 tokens, 21016 chars so far
+[00:46:15]   ollama | generating... 150s elapsed, 6746 tokens, 23401 chars so far
+[00:46:30]   ollama | generating... 165s elapsed, 7416 tokens, 25716 chars so far
+[00:46:45] 
+********************************************************
+[00:46:45] *** RALPH TIMEOUT � local model test_solution.py model=ollama/qwen25-coder-14b
+[00:46:45] ***   budget : 180s
+[00:46:47] ***   ollama : ollama loaded: qwen25-coder-14b:latest(9.3GB)
+[00:46:47] ***   note   : local model generation exceeded 180s budget (8082 tokens / 27977 chars produced)
+[00:46:47] ********************************************************
+
+[00:46:47]   ollama | forcing keep_alive=0 unload for qwen25-coder-14b...
+[00:46:49]   ollama | polling for idle state (max wait 120s)...
+[00:48:15]   ollama | server is now idle.
+   [2m executor -> model=ollama/qwen25-coder-14b | TIMEOUT[0m
+[00:48:15]     evaluator -> score=0.05 done=False | executor timed out
+[00:48:15] route: Circuit Breaker � 2 timeouts -> escalating to cloud
+   [2m evaluator -> score=0.05 done=False | executor timed out[0m
+   [2m escalating -> switching to cloud model[0m
+[00:48:15] aider -> solution.py model=gemini/gemini-2.5-flash timeout=90s file=solution.py
+[00:49:20]   aider | WARN no output for 15s (hard timeout at 90s)
+[00:49:30] aider <- solution.py finished rc=0
+[00:49:30]   solution.py: WRITTEN
+[00:49:30] aider -> test_solution.py model=gemini/gemini-2.5-flash timeout=90s file=test_solution.py
+[00:49:49]   aider | WARN no output for 15s (hard timeout at 90s)
+[00:50:20] aider <- test_solution.py finished rc=0
+[00:50:20]   test_solution.py: UNCHANGED
