@@ -1,0 +1,13 @@
+{
+  "id": "run_20260508_140505_7777d6",
+  "task": "",
+  "start_time": 1778267105.459027,
+  "end_time": null,
+  "duration": null,
+  "status": "running",
+  "node_ids": [],
+  "metrics": {
+    "total_cost": 0.0,
+    "total_tokens": 0
+  }
+}

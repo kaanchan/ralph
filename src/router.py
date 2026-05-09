@@ -59,19 +59,18 @@ def llm_call(prompt: str, model: str, system: str = "") -> str:
         log(f"llm <- {model} finished in {time.time()-t0:.1f}s ({len(out)} chars)")
         return out
 
-    except litellm.Timeout as e:
+    except (litellm.Timeout, litellm.exceptions.APIConnectionError) as e:
         tracer.end_tool(span_id, "failed", str(e))
         loud_timeout(f"llm_call model={model}", LLM_TIMEOUT_SHORT)
         return TIMEOUT_SENTINEL
 
     except Exception as e:
         tracer.end_tool(span_id, "failed", str(e))
-        # Cloud failure → fall back to local; local failure → bubble up
-        if model != LOCAL_MODEL:
-            log(f"llm_call: cloud {model} failed ({e.__class__.__name__}), trying local")
-            return TIMEOUT_SENTINEL
+        # Any model failure → return sentinel so the loop can route/escalate
         log(f"llm_call: {model} raised {e.__class__.__name__}: {e}")
-        raise
+        if model != LOCAL_MODEL:
+            log(f"llm_call: cloud {model} failed, returning sentinel")
+        return TIMEOUT_SENTINEL
 
 
 def route_decision(state: RalphState) -> str:

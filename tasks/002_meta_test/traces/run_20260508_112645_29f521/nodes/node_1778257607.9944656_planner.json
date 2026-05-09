@@ -1,0 +1,12 @@
+{
+  "id": "node_1778257607.9944656_planner",
+  "name": "planner",
+  "start_time": 1778257607.9944656,
+  "end_time": null,
+  "duration": null,
+  "status": "running",
+  "tool_ids": [
+    "tool_c8060494"
+  ],
+  "metrics": {}
+}

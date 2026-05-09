@@ -1,0 +1,17 @@
+{
+  "id": "tool_4d635cee",
+  "parent_node": "executor",
+  "name": "ollama [qwen25-coder-14b]",
+  "start_time": 1778305096.5663626,
+  "end_time": 1778305101.2920642,
+  "duration": 4.725701570510864,
+  "status": "success",
+  "flags": {
+    "budget": 180,
+    "num_ctx": 2048,
+    "temperature": 0
+  },
+  "inputs": "Task: Write a function called fibonacci(n) that returns the nth Fibonacci number. It should handle n=0 returning 0, n=1 returning 1, and use iterative approach for efficiency.\n\nWrite ONLY test_solution.py \u2014 pytest-style tests.\nFirst line must be: from solution import <function_name>\nUse bare def test_...(): functions. No unittest.TestCase.",
+  "outputs": " No if __name__ == '__main__':\n```python\nfrom solution import fibonacci\n\ndef test_fibonacci_zero():\n    assert fibonacci(0) == 0\n\ndef test_fibonacci_one():\n    assert fibonacci(1) == 1\n\ndef test_fibonacci_two():\n    assert fibonacci(2) == 1\n\ndef test_fibonacci_three():\n    assert fibonacci(3) == 2\n\ndef test_fibonacci_ten():\n    assert fibonacci(10) == 55\n\ndef test_fibonacci_twenty():\n    assert fibonacci(20) == 6765\n```",
+  "metrics": {}
+}

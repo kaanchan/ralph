@@ -26,7 +26,7 @@ SCORE_SUCCESS = 0.75        # evaluator score that counts as done
 MAX_CONSECUTIVE_TIMEOUTS = 2  # 2 timeouts in a row → hard fail (don't burn the loop)
 
 # ── Timeouts (seconds, env-overridable) ──────────────────────────────────────
-LLM_TIMEOUT_SHORT  = int(os.getenv("RALPH_TIMEOUT_LLM",        30))   # planner / single LLM call
+LLM_TIMEOUT_SHORT  = int(os.getenv("RALPH_TIMEOUT_LLM",        90))   # planner / single LLM call (needs headroom for Ollama cold-load)
 LOCAL_MODEL_TIMEOUT= int(os.getenv("RALPH_TIMEOUT_LOCAL",      180))  # direct Ollama generation (longer for complex prompts)
 AIDER_TIMEOUT      = int(os.getenv("RALPH_TIMEOUT_AIDER",       90))  # Aider subprocess incl. startup
 GIT_TIMEOUT        = int(os.getenv("RALPH_TIMEOUT_GIT",         10))

@@ -1,7 +1,9 @@
-=== RALPH run 2026-05-08T11:19:59 ===
+=== RALPH run 2026-05-09T00:38:08 ===
 
-=== solution.py (10.3s) ===
+=== solution.py (7.5s) ===
  ```python
+# solution.py
+
 def fibonacci(n):
     if n == 0:
         return 0
@@ -12,7 +14,7 @@ def fibonacci(n):
     for _ in range(2, n + 1):
         a, b = b, a + b
     return b
-```
+``` ```
 
 === test_solution.py (4.7s) ===
  No if __name__ == '__main__':

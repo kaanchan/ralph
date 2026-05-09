@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "C:\Users\kaanchan\Projects\AI\ralph\src\main.py", line 131, in main
+    graph = task_topology.build_graph(checkpointer=memory)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kaanchan\Projects\AI\ralph\tasks\002_meta_test\topology.py", line 52, in build_graph
+    node_func = getattr(sys.modules[__name__], func_name)
+                        ~~~~~~~~~~~^^^^^^^^^^
+KeyError: 'task_topology'

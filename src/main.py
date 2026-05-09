@@ -1,36 +1,37 @@
 """
 RALPH -- Recursive Agent Loop with Planner/Handler
-
-Usage:
-    python main.py --repo C:/path/to/your/repo "add a hello world function"
-    python main.py --history
 """
 import argparse
 import os
 import sys
+import sqlite3
+import json
+import time
 import warnings
+from pathlib import Path
+
+# Filter common warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", category=PendingDeprecationWarning)
-from pathlib import Path
+
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
-# Removed static graph import. Topology is loaded dynamically per Task Pod.
+from langgraph.checkpoint.sqlite import SqliteSaver
+from langgraph.graph import END
+
+# RALPH Core Modules
 from memory import save_run, load_runs
 from state import RalphState
 from runlog import reset_log
 from state_exporter import export_state
 from telemetry import tracer
-from langgraph.graph import END
 from config import RALPH_LOG_PATH, AIDER_LOG_PATH, MAX_CONSECUTIVE_TIMEOUTS
 
-# legacy_windows=False disables the cp1252 Windows renderer; safe=True
-# means unknown chars are replaced instead of crashing.
-# Use Windows Terminal for best results -- it's UTF-8 native.
 console = Console(force_terminal=True, legacy_windows=False, highlight=False, safe_box=True)
 
-
 def initial_state(task: str, repo_dir: str) -> RalphState:
+    """Initialize the agentic state for a new task pod."""
     return RalphState(
         task=task,
         repo_dir=repo_dir,
@@ -47,19 +48,9 @@ def initial_state(task: str, repo_dir: str) -> RalphState:
         log=[],
     )
 
-
 def print_summary(state: RalphState) -> None:
+    """Print a high-level summary of the mission results."""
     success = state["done"] or state["score"] >= 0.75
-    timed_out = state.get("timeout_count", 0) >= MAX_CONSECUTIVE_TIMEOUTS
-
-    if timed_out:
-        console.print(Panel(
-            f"[bold red]HARD-FAIL[/bold red] — {state['timeout_count']} consecutive timeouts.\n"
-            f"Likely causes: Ollama down, model unloaded, or local model can't handle the prompt shape.\n"
-            f"Check: ollama list  /  ollama ps  /  inspect {RALPH_LOG_PATH}",
-            border_style="red", title="Run aborted",
-        ))
-
     console.print()
     table = Table(title="RALPH Run Summary", show_lines=True)
     table.add_column("Field", style="cyan")
@@ -67,155 +58,104 @@ def print_summary(state: RalphState) -> None:
     table.add_row("Task", state["task"])
     table.add_row("Iterations", str(state["iterations"]))
     table.add_row("Final score", f"{state['score']:.2f}")
-    table.add_row("Model used", state["model_used"])
-    table.add_row("Escalated", "yes" if state["escalated"] else "no")
-    table.add_row("Cost tier", "cloud" if state["escalated"] else "local")
-    if timed_out:
-        table.add_row("Success", "[red]TIMEOUT[/red]")
-    else:
-        table.add_row("Success", "PASS" if success else "FAIL")
+    table.add_row("Success", "PASS" if success else "FAIL")
     console.print(table)
-
-    console.print("\n[bold]Decision log:[/bold]")
-    for entry in state["log"]:
-        console.print(f"  {entry}")
-
-    if state["code"]:
-        console.print(Panel(state["code"], title="Generated code", border_style="green"))
-    if state["test_output"]:
-        console.print(Panel(state["test_output"], title="Test output", border_style="yellow"))
-
-
-def print_history() -> None:
-    runs = load_runs()
-    if not runs:
-        console.print("[yellow]No run history found.[/yellow]")
-        return
-    table = Table(title=f"Run history ({len(runs)} runs)")
-    table.add_column("Timestamp")
-    table.add_column("Task")
-    table.add_column("Iters")
-    table.add_column("Score")
-    table.add_column("Model")
-    table.add_column("Cloud?")
-    for r in runs:
-        table.add_row(
-            r["timestamp"],
-            r["task"][:50] + ("..." if len(r["task"]) > 50 else ""),
-            str(r["iterations"]),
-            f"{r['final_score']:.2f}",
-            r["model_used"],
-            "yes" if r["escalated"] else "no",
-        )
-    console.print(table)
-
 
 def main() -> None:
-    p = argparse.ArgumentParser(description="RALPH -- local-first coding agent loop")
-    p.add_argument("command", choices=["run", "history"], help="Command: 'run' to start a task, 'history' for global run log")
-    p.add_argument("task_dir", nargs="?", help="Path to the isolated task directory (e.g. tasks/001_fibonacci)")
-    args = p.parse_args()
+    try:
+        p = argparse.ArgumentParser(description="RALPH -- local-first coding agent loop")
+        p.add_argument("command", choices=["run", "history"], help="Command: 'run' to start a task, 'history' for global run log")
+        p.add_argument("task_dir", nargs="?", help="Path to the isolated task directory")
+        args = p.parse_args()
 
-    if args.command == "history":
-        print_history()
-        return
+        if args.command == "history":
+            runs = load_runs()
+            if not runs:
+                console.print("[yellow]No run history found.[/yellow]")
+                return
+            table = Table(title=f"Run history ({len(runs)} runs)")
+            for r in runs:
+                table.add_row(r.get("timestamp", "N/A"), r.get("task", "N/A")[:50], str(r.get("iterations", 0)), f"{r.get('final_score', 0):.2f}")
+            console.print(table)
+            return
 
-    if not args.task_dir:
-        console.print("[red]Error:[/red] A task directory is required for the 'run' command.")
-        console.print("Example: python src/main.py run tasks/001_fibonacci")
-        sys.exit(1)
+        if not args.task_dir:
+            console.print("[red]Error:[/red] A task directory is required for the 'run' command.")
+            sys.exit(1)
 
-    task_dir = Path(args.task_dir).resolve()
-    
-    # 1. Re-route config paths
-    from config import set_task_directory, ROOT
-    set_task_directory(str(task_dir))
-    
-    # Reload config variables after re-routing
-    from config import RALPH_LOG_PATH, AIDER_LOG_PATH
-    
-    # 1.5 Register Task for Streamlit Dashboard
-    import json
-    import time
-    registry_file = ROOT / ".ralph_registry.json"
-    registry = []
-    if registry_file.exists():
-        try:
-            registry = json.loads(registry_file.read_text())
-        except Exception:
-            pass
-    
-    # Prepend this task to the registry
-    registry = [r for r in registry if r.get("task_dir") != str(task_dir)]
-    registry.insert(0, {"task_dir": str(task_dir), "name": task_dir.name, "timestamp": time.time()})
-    registry_file.write_text(json.dumps(registry[:20], indent=2))  # keep last 20
-
-    # 1.6 Redirect telemetry tracer to this Task Pod
-    tracer.redirect(task_dir / "traces")
-
-    # 2. Extract Goal from task.json
-    task_file = task_dir / "task.json"
-    if task_file.exists():
-        task_data = json.loads(task_file.read_text())
-        task_prompt = task_data.get("goal", "Execute task")
-    else:
-        task_prompt = "Execute task in directory"
-        task_dir.mkdir(parents=True, exist_ok=True)
-        task_file.write_text(json.dumps({"goal": task_prompt}, indent=2))
-
-    repo_dir = str(task_dir / "src")
-    reset_log()
-    console.print(Panel(
-        f"[bold]Task Pod:[/bold] {task_dir.name}\n"
-        f"[dim]Goal:[/dim] {task_prompt}\n"
-        f"[dim]Code Dir:[/dim] {repo_dir}\n"
-        f"[dim]Run log:[/dim]   {RALPH_LOG_PATH}\n"
-        f"[dim]Aider log:[/dim] {AIDER_LOG_PATH}\n"
-        f"[dim]Tail:[/dim]      Get-Content -Wait \"{RALPH_LOG_PATH}\"",
-        border_style="blue",
-    ))
-    console.print("[dim]Streaming node-by-node output below...[/dim]\n")
-
-    # 3. Setup SQLite Checkpointer
-    import sqlite3
-    from langgraph.checkpoint.sqlite import SqliteSaver
-    
-    db_path = task_dir / "checkpoints.sqlite"
-    
-    # 4. Load Dynamic Topology
-    import importlib.util
-    topology_file = task_dir / "topology.py"
-    if not topology_file.exists():
-        console.print(f"[red]Error:[/red] No topology.py found in {task_dir}")
-        sys.exit(1)
+        task_dir = Path(args.task_dir).resolve()
         
-    spec = importlib.util.spec_from_file_location("task_topology", topology_file)
-    task_topology = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(task_topology)
-    
-    if not hasattr(task_topology, "build_graph"):
-        console.print(f"[red]Error:[/red] topology.py must define a build_graph(checkpointer) function.")
-        sys.exit(1)
+        # 1. Re-route config paths to the Task Pod
+        from config import set_task_directory, ROOT
+        set_task_directory(str(task_dir))
         
-    with sqlite3.connect(str(db_path), check_same_thread=False) as conn:
-        memory = SqliteSaver(conn)
-        graph = task_topology.build_graph(checkpointer=memory)
+        # 1.5 Register Task for Streamlit Dashboard
+        registry_file = ROOT / ".ralph_registry.json"
+        registry = []
+        if registry_file.exists():
+            try:
+                registry = json.loads(registry_file.read_text())
+            except Exception:
+                pass
         
-        # The thread_id allows resuming specific runs.
-        # For a task pod, "1" represents the primary thread of execution.
-        config = {"configurable": {"thread_id": "1"}}
-        
-        state = initial_state(task_prompt, repo_dir)
-        export_state(state)
-        tracer.set_task(task_prompt)
+        registry = [r for r in registry if r.get("task_dir") != str(task_dir)]
+        registry.insert(0, {"task_dir": str(task_dir), "name": task_dir.name, "timestamp": time.time()})
+        registry_file.write_text(json.dumps(registry[:20], indent=2))
 
-        try:
+        # 1.6 Redirect telemetry tracer
+        tracer.redirect(task_dir / "traces")
+
+        # 2. Extract Goal
+        task_file = task_dir / "task.json"
+        task_prompt = "Execute task"
+        if task_file.exists():
+            task_data = json.loads(task_file.read_text())
+            task_prompt = task_data.get("goal", "Execute task")
+
+        repo_dir = str(task_dir / "src")
+        reset_log()
+        console.print(Panel(
+            f"[bold]Task Pod:[/bold] {task_dir.name}\n"
+            f"[dim]Goal:[/dim] {task_prompt}",
+            border_style="blue",
+        ))
+
+        # 3. Setup SQLite Checkpointer
+        db_path = task_dir / "checkpoints.sqlite"
+        
+        # 4. Load Dynamic Topology
+        import importlib.util
+        topology_file = task_dir / "topology.py"
+        spec = importlib.util.spec_from_file_location("task_topology", topology_file)
+        task_topology = importlib.util.module_from_spec(spec)
+        sys.modules[spec.name] = task_topology  # register so topology can find its own functions
+        spec.loader.exec_module(task_topology)
+        
+        with sqlite3.connect(str(db_path), check_same_thread=False) as conn:
+            memory = SqliteSaver(conn)
+            graph = task_topology.build_graph(checkpointer=memory)
+            config = {"configurable": {"thread_id": "1"}}
+            
+            state = initial_state(task_prompt, repo_dir)
+            export_state(state)
+            tracer.set_task(task_prompt)
+
             for step in graph.stream(state, config=config, stream_mode="updates"):
-                if not step:
-                    continue
-                if END in step:
-                    from runlog import log
-                    log("loop ended by router condition", also_console=True)
+                # Check for control signals from dashboard
+                signal_file = task_dir / "control.json"
+                if signal_file.exists():
+                    try:
+                        control = json.loads(signal_file.read_text())
+                        if control.get("command") == "pause":
+                            signal_file.unlink(missing_ok=True)
+                            break
+                        elif control.get("command") == "abort":
+                            signal_file.unlink(missing_ok=True)
+                            sys.exit(0)
+                    except Exception:
+                        pass
+
+                if not step or END in step:
                     break
 
                 final = {**state, **{k: v for d in step.values() for k, v in d.items()}}
@@ -236,15 +176,23 @@ def main() -> None:
                     console.print(f"   [dim]{node_output['log'][-1]}[/dim]")
                     
             tracer.end_run("success")
-        except Exception as e:
-            tracer.end_run(f"failed: {e}")
-            raise
+            print_summary(state)
+            export_state({"status": "Finished."})
+            save_run(state)
 
-        print_summary(state)
-        export_state({"status": "Finished."})
-        path = save_run(state)
-        console.print(f"\n[dim]Run saved -> {path}[/dim]")
-
+    except Exception as e:
+        import traceback
+        error_msg = traceback.format_exc()
+        console.print(Panel(f"[bold red]CRITICAL ERROR[/bold red]\n\n{error_msg}", title="RALPH Engine Crash", border_style="red"))
+        # Save to crash log for Studio/Dashboard discovery
+        if task_dir:
+            try:
+                (task_dir / "CRASH.log").write_text(error_msg, encoding="utf-8")
+            except:
+                pass
+        if os.name == 'nt':
+            input("\nPress Enter to close...")
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()

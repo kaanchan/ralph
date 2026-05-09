@@ -1,0 +1,25 @@
+{
+  "nodes": [
+    { "id": "planner", "type": "node", "module": "nodes.planner.default_planner", "func": "planner_node" },
+    { "id": "executor", "type": "node", "module": "nodes.executor.default_executor", "func": "executor_node" },
+    { "id": "evaluator", "type": "node", "module": "nodes.evaluator.pytest_evaluator", "func": "evaluator_node" },
+    { "id": "escalate", "type": "node", "module": "topology", "func": "escalate_node" }
+  ],
+  "edges": [
+    { "source": "planner", "target": "executor" },
+    { "source": "executor", "target": "evaluator" },
+    { "source": "escalate", "target": "executor" }
+  ],
+  "conditional_edges": [
+    {
+      "source": "evaluator",
+      "condition_func": "route_decision",
+      "mapping": {
+        "executor": "executor",
+        "escalate": "escalate",
+        "__end__": "__end__"
+      }
+    }
+  ],
+  "entry_point": "planner"
+}
