@@ -12,12 +12,14 @@
     "node_1778305695.0704126_escalate",
     "node_1778305695.071997_executor",
     "node_1778305820.9171624_evaluator",
-    "node_1778305820.9196513_executor"
+    "node_1778305820.9196513_executor",
+    "node_1778305891.2500322_evaluator",
+    "node_1778305891.2525306_executor"
   ],
   "metrics": {
     "total_cost": 0.0,
     "total_tokens": 0,
-    "iteration": 2,
+    "iteration": 3,
     "escalated": true
   }
 }
