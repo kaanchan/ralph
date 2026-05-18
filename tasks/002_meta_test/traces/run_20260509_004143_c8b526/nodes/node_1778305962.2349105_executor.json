@@ -2,12 +2,13 @@
   "id": "node_1778305962.2349105_executor",
   "name": "executor",
   "start_time": 1778305962.2349105,
-  "end_time": null,
-  "duration": null,
-  "status": "running",
+  "end_time": 1778306055.1075487,
+  "duration": 92.87263822555542,
+  "status": "success",
   "tool_ids": [
     "tool_c117a390",
-    "tool_025b6c58"
+    "tool_025b6c58",
+    "tool_aa3b274b"
   ],
   "metrics": {}
 }

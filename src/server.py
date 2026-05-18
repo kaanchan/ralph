@@ -96,15 +96,22 @@ def get_status(name: str):
     try:
         runs = sorted([d for d in traces_dir.iterdir() if d.is_dir() and d.name.startswith("run_")], key=lambda x: x.name, reverse=True)
         if not runs:
-            return {"nodes": {}}
+            return {"nodes": {}, "status": "stopped"}
         
         latest_run = runs[0]
         
-        # 1. Check if run.json exists to confirm it's a valid run
+        # 1. Load run metadata
         run_file = latest_run / "run.json"
-        if not run_file.exists():
-            return {"nodes": {}, "status": "initializing"}
+        run_metadata = {}
+        if run_file.exists():
+            try:
+                run_metadata = json.loads(run_file.read_text(encoding="utf-8"))
+            except: pass
             
+        status = run_metadata.get("status", "stopped")
+        metrics = run_metadata.get("metrics", {})
+        escalated = metrics.get("escalated", False)
+
         nodes_dir = latest_run / "nodes"
         status_map = {}
         if nodes_dir.exists():
@@ -117,9 +124,14 @@ def get_status(name: str):
                     }
                 except:
                     pass
-        return {"nodes": status_map}
+        return {
+            "nodes": status_map, 
+            "status": status, 
+            "escalated": escalated,
+            "run_id": latest_run.name
+        }
     except Exception as e:
-        return {"nodes": {}, "error": str(e)}
+        return {"nodes": {}, "status": "error", "error": str(e)}
 
 @app.get("/tasks/{name}/logs/console")
 def get_console_logs(name: str):

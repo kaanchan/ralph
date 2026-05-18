@@ -1,0 +1,13 @@
+{
+  "id": "tool_aa3b274b",
+  "parent_node": "executor",
+  "name": "pytest",
+  "start_time": 1778306054.4665003,
+  "end_time": 1778306055.1075487,
+  "duration": 0.6410484313964844,
+  "status": "failed",
+  "flags": {},
+  "inputs": "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\.venv\\Scripts\\python.exe -m pytest test_solution.py --tb=short -q",
+  "outputs": "F                                                                        [100%]\n================================== FAILURES ===================================\n______________________________ test_xor_training ______________________________\ntest_solution.py:27: in test_xor_training\n    final_loss = nn.train(xor_inputs, xor_outputs, learning_rate, epochs)\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nsolution.py:46: in train\n    for epoch in range(epochs):\n                 ^^^^^^^^^^^^^\nE   TypeError: 'float' object cannot be interpreted as an integer\n=========================== short test summary info ===========================\nFAILED test_solution.py::test_xor_training - TypeError: 'float' object cannot...\n1 failed in 0.05s",
+  "metrics": {}
+}
