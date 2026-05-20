@@ -1,0 +1,847 @@
+{
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\.ralph_registry.json": {
+    "mtime": 1778305303.5828533,
+    "ast_hash": "7347a60e5aec2a5655a0f1d3956aba69",
+    "semantic_hash": "7347a60e5aec2a5655a0f1d3956aba69"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\langgraph.json": {
+    "mtime": 1778220310.1475682,
+    "ast_hash": "62d514041106547b2031b8c9432bb571",
+    "semantic_hash": "62d514041106547b2031b8c9432bb571"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\solution.py": {
+    "mtime": 1778306051.4969907,
+    "ast_hash": "537670b6d51f7a6bf85405038ee2cc32",
+    "semantic_hash": "537670b6d51f7a6bf85405038ee2cc32"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\test_solution.py": {
+    "mtime": 1778306051.4969907,
+    "ast_hash": "28922290a8a438d0f2bd9b5ced5ae000",
+    "semantic_hash": "28922290a8a438d0f2bd9b5ced5ae000"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\diagnostics\\d1_ollama.py": {
+    "mtime": 1778121434.4077659,
+    "ast_hash": "7d61527354db0898fd04729715e0fbdd",
+    "semantic_hash": "7d61527354db0898fd04729715e0fbdd"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\diagnostics\\d2_litellm.py": {
+    "mtime": 1778093952.6877768,
+    "ast_hash": "42dd88ccdf3a0c7ad4318959d0103a91",
+    "semantic_hash": "42dd88ccdf3a0c7ad4318959d0103a91"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\diagnostics\\d3_5_executor_env.py": {
+    "mtime": 1778119391.8447769,
+    "ast_hash": "af0a5419790b7abbd737aa93488e7cad",
+    "semantic_hash": "af0a5419790b7abbd737aa93488e7cad"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\diagnostics\\d3_aider.py": {
+    "mtime": 1778125163.2349415,
+    "ast_hash": "45406f28978112bbaa840ff08a6e2b3e",
+    "semantic_hash": "45406f28978112bbaa840ff08a6e2b3e"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\diagnostics\\d4_langgraph.py": {
+    "mtime": 1778094136.642093,
+    "ast_hash": "bc930527737f592d2ad60199c5c76b46",
+    "semantic_hash": "bc930527737f592d2ad60199c5c76b46"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\diagnostics\\d5_langsmith.py": {
+    "mtime": 1778094177.3519583,
+    "ast_hash": "368035407e769d01f45e656af06625fa",
+    "semantic_hash": "368035407e769d01f45e656af06625fa"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\diagnostics\\d6_ralph_loop.py": {
+    "mtime": 1778094190.9340844,
+    "ast_hash": "087b6ecc7d5e22ab5fa1dc8a99779340",
+    "semantic_hash": "087b6ecc7d5e22ab5fa1dc8a99779340"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\diagnostics\\d7_ollama_cancel.py": {
+    "mtime": 1778215073.4929483,
+    "ast_hash": "d8a33798799c5caa941fbf0d277dfe74",
+    "semantic_hash": "d8a33798799c5caa941fbf0d277dfe74"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\diagnostics\\d_model.py": {
+    "mtime": 1778125144.8293743,
+    "ast_hash": "65ca51baba52bad89abca7d0e2a53918",
+    "semantic_hash": "65ca51baba52bad89abca7d0e2a53918"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\diagnostics\\run_all.py": {
+    "mtime": 1778218918.0062475,
+    "ast_hash": "c48190ad69c60469fb04c3c3af4eee53",
+    "semantic_hash": "c48190ad69c60469fb04c3c3af4eee53"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\logs\\live_state.json": {
+    "mtime": 1778306055.1246898,
+    "ast_hash": "87bc863f19d610ad7f1408352e6abc79",
+    "semantic_hash": "87bc863f19d610ad7f1408352e6abc79"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\memory\\run_20260506T205026Z.json": {
+    "mtime": 1778100626.6627507,
+    "ast_hash": "857e9eebb163d230f00a96fe4012cd82",
+    "semantic_hash": "857e9eebb163d230f00a96fe4012cd82"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\memory\\run_20260506T210802Z.json": {
+    "mtime": 1778101682.3595393,
+    "ast_hash": "c57eed16b3f66edcbcdf7d9bde504d83",
+    "semantic_hash": "c57eed16b3f66edcbcdf7d9bde504d83"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\memory\\run_20260506T211451Z.json": {
+    "mtime": 1778102091.412197,
+    "ast_hash": "689659fa9aecd5dd98ec498e8229c0e7",
+    "semantic_hash": "689659fa9aecd5dd98ec498e8229c0e7"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\memory\\run_20260507T015908Z.json": {
+    "mtime": 1778119148.9849849,
+    "ast_hash": "406a0ea765b9161416aec0b027c6e147",
+    "semantic_hash": "406a0ea765b9161416aec0b027c6e147"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\memory\\run_20260507T030508Z.json": {
+    "mtime": 1778123108.4001708,
+    "ast_hash": "b16835613f8088c8a4d28ca42ed42e16",
+    "semantic_hash": "b16835613f8088c8a4d28ca42ed42e16"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\memory\\run_20260507T032045Z.json": {
+    "mtime": 1778124045.48087,
+    "ast_hash": "f25910da6a9ae8f3a7c998d136e00533",
+    "semantic_hash": "f25910da6a9ae8f3a7c998d136e00533"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\memory\\run_20260507T034346Z.json": {
+    "mtime": 1778125426.8710027,
+    "ast_hash": "ef0a220e1abe527cd156734ccc6d6416",
+    "semantic_hash": "ef0a220e1abe527cd156734ccc6d6416"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\memory\\run_20260507T034924Z.json": {
+    "mtime": 1778125764.6218624,
+    "ast_hash": "de9aeb2dbe4df7c61d91516519d9f0c4",
+    "semantic_hash": "de9aeb2dbe4df7c61d91516519d9f0c4"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\memory\\run_20260507T170318Z.json": {
+    "mtime": 1778173398.7575471,
+    "ast_hash": "34833c0d061c1f0e8d2ee730d2bff912",
+    "semantic_hash": "34833c0d061c1f0e8d2ee730d2bff912"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\memory\\run_20260507T185601Z.json": {
+    "mtime": 1778180161.6161938,
+    "ast_hash": "af4bc03e9e89fee9dbda3f22565d2db8",
+    "semantic_hash": "af4bc03e9e89fee9dbda3f22565d2db8"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\memory\\run_20260508T040634Z.json": {
+    "mtime": 1778213194.9190373,
+    "ast_hash": "ffa566c543d5c73fe8de2a2a29b15872",
+    "semantic_hash": "ffa566c543d5c73fe8de2a2a29b15872"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\memory\\run_20260508T042823Z.json": {
+    "mtime": 1778214503.0482104,
+    "ast_hash": "348fcd56a6994a00609ba2bd10f68da8",
+    "semantic_hash": "348fcd56a6994a00609ba2bd10f68da8"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\memory\\run_20260508T062715Z.json": {
+    "mtime": 1778221635.1103923,
+    "ast_hash": "795d72c68819ec866be456e7b32aa2ab",
+    "semantic_hash": "795d72c68819ec866be456e7b32aa2ab"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\memory\\run_20260508T064533Z.json": {
+    "mtime": 1778222733.555243,
+    "ast_hash": "26ce51b5b20e55c9ca992592e5734d26",
+    "semantic_hash": "26ce51b5b20e55c9ca992592e5734d26"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\memory\\run_20260508T065543Z.json": {
+    "mtime": 1778223343.9084694,
+    "ast_hash": "8f1e97e0cc829bf60510a1c508f4719a",
+    "semantic_hash": "8f1e97e0cc829bf60510a1c508f4719a"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\memory\\run_20260508T072141Z.json": {
+    "mtime": 1778224901.4479568,
+    "ast_hash": "6af35fd8650c4fb2ae00d90d7c078092",
+    "semantic_hash": "6af35fd8650c4fb2ae00d90d7c078092"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\memory\\run_20260508T160107Z.json": {
+    "mtime": 1778256067.3779335,
+    "ast_hash": "7c143293da7bfbb475945cbe377bf6dc",
+    "semantic_hash": "7c143293da7bfbb475945cbe377bf6dc"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\memory\\run_20260508T160819Z.json": {
+    "mtime": 1778256499.744715,
+    "ast_hash": "1b87b4142f461b7ee1f935e81c6e812b",
+    "semantic_hash": "1b87b4142f461b7ee1f935e81c6e812b"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\memory\\run_20260508T162015Z.json": {
+    "mtime": 1778257215.5323014,
+    "ast_hash": "5901cb69966e6532010ed485a99bcbb3",
+    "semantic_hash": "5901cb69966e6532010ed485a99bcbb3"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\memory\\run_20260508T162615Z.json": {
+    "mtime": 1778257575.070151,
+    "ast_hash": "db31f6dd14653b2a3bac79f902443916",
+    "semantic_hash": "db31f6dd14653b2a3bac79f902443916"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\memory\\run_20260509T053833Z.json": {
+    "mtime": 1778305113.3173168,
+    "ast_hash": "b007c00564bf43a8de9c99190a1e48e5",
+    "semantic_hash": "b007c00564bf43a8de9c99190a1e48e5"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\memory\\run_20260509T055415Z.json": {
+    "mtime": 1778306055.1246898,
+    "ast_hash": "7f1b190fbb987e00bd8cb51c1bc01d44",
+    "semantic_hash": "7f1b190fbb987e00bd8cb51c1bc01d44"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\scratch\\check_env.py": {
+    "mtime": 1778267718.2329266,
+    "ast_hash": "893c8f35fa22291d9f13c0aca056ba5e",
+    "semantic_hash": "893c8f35fa22291d9f13c0aca056ba5e"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\scratch\\git_helper.py": {
+    "mtime": 1778277448.8720374,
+    "ast_hash": "264d5b4072ef644a196cdcf7052fbfb7",
+    "semantic_hash": "264d5b4072ef644a196cdcf7052fbfb7"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\scripts\\reset-task.ps1": {
+    "mtime": 1779150051.2389097,
+    "ast_hash": "0b9b8e3a819897dac6daea9f699bd579",
+    "semantic_hash": "0b9b8e3a819897dac6daea9f699bd579"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\src\\config.py": {
+    "mtime": 1778305003.9508028,
+    "ast_hash": "8f40a7deaa9b777714a84869416f7125",
+    "semantic_hash": "8f40a7deaa9b777714a84869416f7125"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\src\\dash_html.py": {
+    "mtime": 1778222005.1939895,
+    "ast_hash": "b0fe8d2336624c9dd4a9a19adb2e44be",
+    "semantic_hash": "b0fe8d2336624c9dd4a9a19adb2e44be"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\src\\dash_rich.py": {
+    "mtime": 1778221999.566565,
+    "ast_hash": "5cbaa8d60c8e21cb27f7008ca402d9e9",
+    "semantic_hash": "5cbaa8d60c8e21cb27f7008ca402d9e9"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\src\\dash_streamlit.py": {
+    "mtime": 1778266284.6916924,
+    "ast_hash": "dac1b4e15e7b24fd397eff1f850d25d4",
+    "semantic_hash": "dac1b4e15e7b24fd397eff1f850d25d4"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\src\\evaluator.py": {
+    "mtime": 1778100164.617024,
+    "ast_hash": "985a76d9472522dc1dcb746fa24959fd",
+    "semantic_hash": "985a76d9472522dc1dcb746fa24959fd"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\src\\executor.py": {
+    "mtime": 1778253444.2959106,
+    "ast_hash": "c9fae0c74351455467f00f88f423b36d",
+    "semantic_hash": "c9fae0c74351455467f00f88f423b36d"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\src\\graph.py": {
+    "mtime": 1778252549.246511,
+    "ast_hash": "fbb8868b95179410db88fce9956c0862",
+    "semantic_hash": "fbb8868b95179410db88fce9956c0862"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\src\\hardware.py": {
+    "mtime": 1778218864.2975545,
+    "ast_hash": "7e594f3c699bfe96c44dce70590f0eb0",
+    "semantic_hash": "7e594f3c699bfe96c44dce70590f0eb0"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\src\\main.py": {
+    "mtime": 1778304718.807503,
+    "ast_hash": "be6dda4cf78e9af5ebf5defc08e29b65",
+    "semantic_hash": "be6dda4cf78e9af5ebf5defc08e29b65"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\src\\memory.py": {
+    "mtime": 1778089089.7053206,
+    "ast_hash": "44ba4a360cb4cdbf13ad0cc553ba64b2",
+    "semantic_hash": "44ba4a360cb4cdbf13ad0cc553ba64b2"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\src\\model_registry.py": {
+    "mtime": 1778218866.303921,
+    "ast_hash": "01c9368b8a24c3b9db650ebd1b0e12d2",
+    "semantic_hash": "01c9368b8a24c3b9db650ebd1b0e12d2"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\src\\router.py": {
+    "mtime": 1778304990.2080555,
+    "ast_hash": "0fabe4a3f329115f1ad670cf54b3b49e",
+    "semantic_hash": "0fabe4a3f329115f1ad670cf54b3b49e"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\src\\runlog.py": {
+    "mtime": 1778221817.65621,
+    "ast_hash": "6845b83e53ac0751f4440e163c06cbb9",
+    "semantic_hash": "6845b83e53ac0751f4440e163c06cbb9"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\src\\server.py": {
+    "mtime": 1778444390.928651,
+    "ast_hash": "98aaf798790a40a6abf7c17da84d7c63",
+    "semantic_hash": "98aaf798790a40a6abf7c17da84d7c63"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\src\\state.py": {
+    "mtime": 1778254651.9267786,
+    "ast_hash": "ce4715cc6410c95c35f870761f393ad9",
+    "semantic_hash": "ce4715cc6410c95c35f870761f393ad9"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\src\\state_exporter.py": {
+    "mtime": 1778221812.3191762,
+    "ast_hash": "d37df677c527d94e0a93b404b403204e",
+    "semantic_hash": "d37df677c527d94e0a93b404b403204e"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\src\\telemetry.py": {
+    "mtime": 1778256203.8636377,
+    "ast_hash": "c51bd0456faa4a3bd9dbef8b4d91cfd1",
+    "semantic_hash": "c51bd0456faa4a3bd9dbef8b4d91cfd1"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\src\\editor\\package.json": {
+    "mtime": 1778258553.494747,
+    "ast_hash": "6773be383d9f4a368d4fdbbb6ee2c655",
+    "semantic_hash": "6773be383d9f4a368d4fdbbb6ee2c655"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\src\\editor\\vite.config.ts": {
+    "mtime": 1778258515.6345108,
+    "ast_hash": "1393dffa093ebd26071138ed6575fe6b",
+    "semantic_hash": "1393dffa093ebd26071138ed6575fe6b"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\src\\editor\\src\\App.tsx": {
+    "mtime": 1778444380.516755,
+    "ast_hash": "4eab4d3ff604d0b5057bb413c2db8751",
+    "semantic_hash": "4eab4d3ff604d0b5057bb413c2db8751"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\src\\editor\\src\\main.tsx": {
+    "mtime": 1778258521.6917198,
+    "ast_hash": "ca8b1be26d930003cfacb731b3b010ac",
+    "semantic_hash": "ca8b1be26d930003cfacb731b3b010ac"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\src\\nodes\\__init__.py": {
+    "mtime": 1778255109.8540223,
+    "ast_hash": "48bdb434c62604db7dff3c9b1c7d7755",
+    "semantic_hash": "48bdb434c62604db7dff3c9b1c7d7755"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\src\\nodes\\consultant\\cloud_consultant.py": {
+    "mtime": 1778254641.5078933,
+    "ast_hash": "77d7b3766e4683bd522ef68653c6b7dd",
+    "semantic_hash": "77d7b3766e4683bd522ef68653c6b7dd"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\src\\nodes\\consultant\\__init__.py": {
+    "mtime": 1778255130.4751823,
+    "ast_hash": "62465104480ca37c46b30391cef08408",
+    "semantic_hash": "62465104480ca37c46b30391cef08408"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\src\\nodes\\evaluator\\pytest_evaluator.py": {
+    "mtime": 1778256984.3232586,
+    "ast_hash": "baad246a70f19fac6ead643bafa45d7a",
+    "semantic_hash": "baad246a70f19fac6ead643bafa45d7a"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\src\\nodes\\evaluator\\__init__.py": {
+    "mtime": 1778255125.018248,
+    "ast_hash": "75ab9cfd117b42e4971cfde18252a50c",
+    "semantic_hash": "75ab9cfd117b42e4971cfde18252a50c"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\src\\nodes\\executor\\default_executor.py": {
+    "mtime": 1778256960.374556,
+    "ast_hash": "4df8f0b73014a07e1420d39748c7506e",
+    "semantic_hash": "4df8f0b73014a07e1420d39748c7506e"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\src\\nodes\\executor\\__init__.py": {
+    "mtime": 1778255119.7683249,
+    "ast_hash": "71399edd282053a6a753323a5732aa38",
+    "semantic_hash": "71399edd282053a6a753323a5732aa38"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\src\\nodes\\planner\\default_planner.py": {
+    "mtime": 1778256973.2021327,
+    "ast_hash": "242580e7ca14748eef5fcdcf1aab53c6",
+    "semantic_hash": "242580e7ca14748eef5fcdcf1aab53c6"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\src\\nodes\\planner\\__init__.py": {
+    "mtime": 1778255114.7976472,
+    "ast_hash": "bf7132a44aeb2e9db4391c574efb63d0",
+    "semantic_hash": "bf7132a44aeb2e9db4391c574efb63d0"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\graph.json": {
+    "mtime": 1778258275.9376316,
+    "ast_hash": "7d1bd911ed88cbfcf6059ca32c32fd23",
+    "semantic_hash": "7d1bd911ed88cbfcf6059ca32c32fd23"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\task.json": {
+    "mtime": 1778255159.202398,
+    "ast_hash": "a0c6508222275707bb9fbdb5f889cdad",
+    "semantic_hash": "a0c6508222275707bb9fbdb5f889cdad"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\topology.py": {
+    "mtime": 1778278924.4717338,
+    "ast_hash": "bc85b74458b4991d8ab2b142a1637fc6",
+    "semantic_hash": "bc85b74458b4991d8ab2b142a1637fc6"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\src\\solution.py": {
+    "mtime": 1778305096.5093937,
+    "ast_hash": "12c2668da4eea632e002d67c965cd9e9",
+    "semantic_hash": "12c2668da4eea632e002d67c965cd9e9"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\src\\test_solution.py": {
+    "mtime": 1778305101.2935853,
+    "ast_hash": "eaec23e81ef452eaffbd7d0a262fd743",
+    "semantic_hash": "eaec23e81ef452eaffbd7d0a262fd743"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_110556_695462\\run.json": {
+    "mtime": 1778256499.7419455,
+    "ast_hash": "a1006884d8b0c44f21e0ca0a5d165ce6",
+    "semantic_hash": "a1006884d8b0c44f21e0ca0a5d165ce6"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_110556_695462\\nodes\\node_1778256359.4193356_planner.json": {
+    "mtime": 1778256381.752635,
+    "ast_hash": "42664ce74dc613aaf1eaaca3007cec89",
+    "semantic_hash": "42664ce74dc613aaf1eaaca3007cec89"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_110556_695462\\nodes\\node_1778256381.75739_executor.json": {
+    "mtime": 1778256393.163456,
+    "ast_hash": "ec3a5d328e8a2e9a13eec184f1478ed8",
+    "semantic_hash": "ec3a5d328e8a2e9a13eec184f1478ed8"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_110556_695462\\nodes\\node_1778256393.1672385_evaluator.json": {
+    "mtime": 1778256393.1697955,
+    "ast_hash": "32baa45c172be50331ea4b84254f363a",
+    "semantic_hash": "32baa45c172be50331ea4b84254f363a"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_110556_695462\\nodes\\node_1778256393.1687562_executor.json": {
+    "mtime": 1778256398.0366018,
+    "ast_hash": "23b05e0ddab8c3893b7ab5a9f412ea1b",
+    "semantic_hash": "23b05e0ddab8c3893b7ab5a9f412ea1b"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_110556_695462\\nodes\\node_1778256398.0399349_evaluator.json": {
+    "mtime": 1778256398.0420496,
+    "ast_hash": "11675919efbf051d4821833d29cbdc21",
+    "semantic_hash": "11675919efbf051d4821833d29cbdc21"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_110556_695462\\nodes\\node_1778256398.04205_executor.json": {
+    "mtime": 1778256402.8436966,
+    "ast_hash": "402769f882d868e548a6d789451f5ff7",
+    "semantic_hash": "402769f882d868e548a6d789451f5ff7"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_110556_695462\\nodes\\node_1778256402.846673_evaluator.json": {
+    "mtime": 1778256402.848831,
+    "ast_hash": "09c75bff65dbd57a0c2127abea049bb9",
+    "semantic_hash": "09c75bff65dbd57a0c2127abea049bb9"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_110556_695462\\nodes\\node_1778256402.848831_executor.json": {
+    "mtime": 1778256407.6442702,
+    "ast_hash": "d7106d664f726a88f2c8a16008b95683",
+    "semantic_hash": "d7106d664f726a88f2c8a16008b95683"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_110556_695462\\nodes\\node_1778256407.646251_evaluator.json": {
+    "mtime": 1778256407.649382,
+    "ast_hash": "2d8cfab4c57e6b6f48c8813927031ef1",
+    "semantic_hash": "2d8cfab4c57e6b6f48c8813927031ef1"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_110556_695462\\nodes\\node_1778256407.6498933_escalate.json": {
+    "mtime": 1778256407.652532,
+    "ast_hash": "08c943bd4789bee8b507ca8c6506d653",
+    "semantic_hash": "08c943bd4789bee8b507ca8c6506d653"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_110556_695462\\nodes\\node_1778256407.6514692_executor.json": {
+    "mtime": 1778256499.7334852,
+    "ast_hash": "aaf7e363e19b2d4f1ce095c0eff0d42a",
+    "semantic_hash": "aaf7e363e19b2d4f1ce095c0eff0d42a"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_110556_695462\\nodes\\node_1778256499.736647_evaluator.json": {
+    "mtime": 1778256499.7382317,
+    "ast_hash": "2417cc772b3598edc378415315790bcc",
+    "semantic_hash": "2417cc772b3598edc378415315790bcc"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_110556_695462\\tools\\tool_070ad464.json": {
+    "mtime": 1778256407.0530188,
+    "ast_hash": "c4c5db48c81a4076093e797ec75f2449",
+    "semantic_hash": "c4c5db48c81a4076093e797ec75f2449"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_110556_695462\\tools\\tool_12e1cf92.json": {
+    "mtime": 1778256402.8436966,
+    "ast_hash": "33c5bb4f9800ae0840c19b52e2e5459a",
+    "semantic_hash": "33c5bb4f9800ae0840c19b52e2e5459a"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_110556_695462\\tools\\tool_17d70022.json": {
+    "mtime": 1778256499.7329633,
+    "ast_hash": "36c2f1b2a7b732094efb3909d324080e",
+    "semantic_hash": "36c2f1b2a7b732094efb3909d324080e"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_110556_695462\\tools\\tool_1af2f179.json": {
+    "mtime": 1778256392.3736231,
+    "ast_hash": "c8c39b853a8dcf0e194edfe04362c800",
+    "semantic_hash": "c8c39b853a8dcf0e194edfe04362c800"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_110556_695462\\tools\\tool_3bbf6f29.json": {
+    "mtime": 1778256381.7504706,
+    "ast_hash": "e51b1cfc55e818099ed4be9f4605ef0d",
+    "semantic_hash": "e51b1cfc55e818099ed4be9f4605ef0d"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_110556_695462\\tools\\tool_3d3ae7bc.json": {
+    "mtime": 1778256404.9550717,
+    "ast_hash": "253d1fcbad7599c4e50d303130426f0d",
+    "semantic_hash": "253d1fcbad7599c4e50d303130426f0d"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_110556_695462\\tools\\tool_3f58111b.json": {
+    "mtime": 1778256395.27965,
+    "ast_hash": "0c29e27519730d501b1a82b8650bdc31",
+    "semantic_hash": "0c29e27519730d501b1a82b8650bdc31"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_110556_695462\\tools\\tool_43815ccc.json": {
+    "mtime": 1778256400.142063,
+    "ast_hash": "e6ff140decfa3be35c4578b95e982cdd",
+    "semantic_hash": "e6ff140decfa3be35c4578b95e982cdd"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_110556_695462\\tools\\tool_5b14ea4d.json": {
+    "mtime": 1778256407.6442702,
+    "ast_hash": "c1bea0d4a3e1c50273a26ffd555fdcbe",
+    "semantic_hash": "c1bea0d4a3e1c50273a26ffd555fdcbe"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_110556_695462\\tools\\tool_8189e5ba.json": {
+    "mtime": 1778256402.2650075,
+    "ast_hash": "90d812b293733b9dafeeeffa56909f90",
+    "semantic_hash": "90d812b293733b9dafeeeffa56909f90"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_110556_695462\\tools\\tool_91ffaa70.json": {
+    "mtime": 1778256393.163456,
+    "ast_hash": "c367faba28ef726118c6dc9857125d32",
+    "semantic_hash": "c367faba28ef726118c6dc9857125d32"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_110556_695462\\tools\\tool_b20b4087.json": {
+    "mtime": 1778256397.3804166,
+    "ast_hash": "5285ef121107b233b1a62343f41c57c4",
+    "semantic_hash": "5285ef121107b233b1a62343f41c57c4"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_110556_695462\\tools\\tool_c552c373.json": {
+    "mtime": 1778256398.0366018,
+    "ast_hash": "1d720e9bbc176a13aa2f018a74e7226a",
+    "semantic_hash": "1d720e9bbc176a13aa2f018a74e7226a"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_110556_695462\\tools\\tool_ef1d48f2.json": {
+    "mtime": 1778256390.2605455,
+    "ast_hash": "ae85b61818f09e3c68e0fe983ca24e53",
+    "semantic_hash": "ae85b61818f09e3c68e0fe983ca24e53"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_111935_ae3d6d\\run.json": {
+    "mtime": 1778257215.5301924,
+    "ast_hash": "1effe9583bdad86bcd7ffe0b4232da89",
+    "semantic_hash": "1effe9583bdad86bcd7ffe0b4232da89"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_111935_ae3d6d\\nodes\\node_1778257178.3692296_planner.json": {
+    "mtime": 1778257197.416894,
+    "ast_hash": "ef4a20f0e26355248c42d5195a764e75",
+    "semantic_hash": "ef4a20f0e26355248c42d5195a764e75"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_111935_ae3d6d\\nodes\\node_1778257197.421892_executor.json": {
+    "mtime": 1778257215.519541,
+    "ast_hash": "5c3a47c2f5756e39a22ba9d3aa601850",
+    "semantic_hash": "5c3a47c2f5756e39a22ba9d3aa601850"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_111935_ae3d6d\\nodes\\node_1778257215.522532_evaluator.json": {
+    "mtime": 1778257215.5248806,
+    "ast_hash": "926e04f3cdcabab393111e621ad5d23b",
+    "semantic_hash": "926e04f3cdcabab393111e621ad5d23b"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_111935_ae3d6d\\tools\\tool_034a7067.json": {
+    "mtime": 1778257215.5185604,
+    "ast_hash": "653a98d05ad921ca65e8da37c03fe602",
+    "semantic_hash": "653a98d05ad921ca65e8da37c03fe602"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_111935_ae3d6d\\tools\\tool_54959545.json": {
+    "mtime": 1778257214.5354774,
+    "ast_hash": "27a96025429fc72644ea11abc898fcaf",
+    "semantic_hash": "27a96025429fc72644ea11abc898fcaf"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_111935_ae3d6d\\tools\\tool_838de2a6.json": {
+    "mtime": 1778257197.4149122,
+    "ast_hash": "341ed55a7f91bfd68c94b088fbf3324d",
+    "semantic_hash": "341ed55a7f91bfd68c94b088fbf3324d"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260508_111935_ae3d6d\\tools\\tool_d7e9e2e9.json": {
+    "mtime": 1778257209.7410712,
+    "ast_hash": "3d710230514f120fb996d86d355ae54c",
+    "semantic_hash": "3d710230514f120fb996d86d355ae54c"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260509_003514_ab740d\\run.json": {
+    "mtime": 1778304916.8771093,
+    "ast_hash": "18686fefa4aa79b25b6eaa8ef7b18fe4",
+    "semantic_hash": "18686fefa4aa79b25b6eaa8ef7b18fe4"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260509_003514_ab740d\\nodes\\node_1778304916.8771093_planner.json": {
+    "mtime": 1778304916.8786218,
+    "ast_hash": "225cf158911010f2f7bac6162587d55c",
+    "semantic_hash": "225cf158911010f2f7bac6162587d55c"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260509_003514_ab740d\\tools\\tool_c07a0ccf.json": {
+    "mtime": 1778304951.1615167,
+    "ast_hash": "9255b3eefb78289139f44c04d968ebc2",
+    "semantic_hash": "9255b3eefb78289139f44c04d968ebc2"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260509_003751_a7475a\\run.json": {
+    "mtime": 1778305113.3168037,
+    "ast_hash": "5a0eb93da2fd910812557cc029730aa9",
+    "semantic_hash": "5a0eb93da2fd910812557cc029730aa9"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260509_003751_a7475a\\nodes\\node_1778305073.4947083_planner.json": {
+    "mtime": 1778305086.970367,
+    "ast_hash": "00f54478660104bf00ce9e34518cce11",
+    "semantic_hash": "00f54478660104bf00ce9e34518cce11"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260509_003751_a7475a\\nodes\\node_1778305086.974359_executor.json": {
+    "mtime": 1778305113.3085456,
+    "ast_hash": "2621104a72614542b0b8dad1f96e5d09",
+    "semantic_hash": "2621104a72614542b0b8dad1f96e5d09"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260509_003751_a7475a\\nodes\\node_1778305113.3104982_evaluator.json": {
+    "mtime": 1778305113.3130364,
+    "ast_hash": "359e6f67130f4ef83468306ad6a87081",
+    "semantic_hash": "359e6f67130f4ef83468306ad6a87081"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260509_003751_a7475a\\tools\\tool_497a435d.json": {
+    "mtime": 1778305086.969357,
+    "ast_hash": "45db21717137acb03040842e209ef17f",
+    "semantic_hash": "45db21717137acb03040842e209ef17f"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260509_003751_a7475a\\tools\\tool_4d635cee.json": {
+    "mtime": 1778305101.2926004,
+    "ast_hash": "2e3459173191114638ae7d37d54f09ec",
+    "semantic_hash": "2e3459173191114638ae7d37d54f09ec"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260509_003751_a7475a\\tools\\tool_633bb41a.json": {
+    "mtime": 1778305113.3085456,
+    "ast_hash": "3892eefa6c9f9482c856618b238c6e7b",
+    "semantic_hash": "3892eefa6c9f9482c856618b238c6e7b"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\001_fibonacci\\traces\\run_20260509_003751_a7475a\\tools\\tool_a2355f25.json": {
+    "mtime": 1778305096.5085204,
+    "ast_hash": "d5fdddcfff4d9b49c96a6dc76850487f",
+    "semantic_hash": "d5fdddcfff4d9b49c96a6dc76850487f"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\graph.json": {
+    "mtime": 1778259261.2109864,
+    "ast_hash": "7d1bd911ed88cbfcf6059ca32c32fd23",
+    "semantic_hash": "7d1bd911ed88cbfcf6059ca32c32fd23"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\task.json": {
+    "mtime": 1778254756.0834627,
+    "ast_hash": "a78a733a42adbe02cc3f00e1349e29f2",
+    "semantic_hash": "a78a733a42adbe02cc3f00e1349e29f2"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\topology.py": {
+    "mtime": 1778278928.714238,
+    "ast_hash": "bf2b67b8d797924e1ffe530797b62151",
+    "semantic_hash": "bf2b67b8d797924e1ffe530797b62151"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\src\\solution.py": {
+    "mtime": 1778305852.570982,
+    "ast_hash": "435c715b9484c3ed6b8db058f0130c74",
+    "semantic_hash": "435c715b9484c3ed6b8db058f0130c74"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\src\\test_solution.py": {
+    "mtime": 1778306051.4979765,
+    "ast_hash": "28922290a8a438d0f2bd9b5ced5ae000",
+    "semantic_hash": "28922290a8a438d0f2bd9b5ced5ae000"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260508_112542_0b4034\\run.json": {
+    "mtime": 1778257575.066589,
+    "ast_hash": "dc3c0f14d257627de59c4ec4847ee390",
+    "semantic_hash": "dc3c0f14d257627de59c4ec4847ee390"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260508_112542_0b4034\\nodes\\node_1778257545.618135_planner.json": {
+    "mtime": 1778257575.0579736,
+    "ast_hash": "4b17f0a9219e14e0c5b7981e49332bf2",
+    "semantic_hash": "4b17f0a9219e14e0c5b7981e49332bf2"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260508_112542_0b4034\\tools\\tool_53bc9c12.json": {
+    "mtime": 1778257575.0559871,
+    "ast_hash": "bcae3989ffa77dc3601aa0f1ce210c8f",
+    "semantic_hash": "bcae3989ffa77dc3601aa0f1ce210c8f"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260508_112645_29f521\\run.json": {
+    "mtime": 1778257642.268997,
+    "ast_hash": "d9208f736d13d3e551c56a338b8ff7b2",
+    "semantic_hash": "d9208f736d13d3e551c56a338b8ff7b2"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260508_112645_29f521\\nodes\\node_1778257607.9944656_planner.json": {
+    "mtime": 1778257607.9955304,
+    "ast_hash": "6f8a556bfae7b50459077609a476b875",
+    "semantic_hash": "6f8a556bfae7b50459077609a476b875"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260508_112645_29f521\\tools\\tool_c8060494.json": {
+    "mtime": 1778257642.2307014,
+    "ast_hash": "189a6903cf3bf5ccade1967ac9a35297",
+    "semantic_hash": "189a6903cf3bf5ccade1967ac9a35297"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260508_132845_295f7e\\run.json": {
+    "mtime": 1778265514.8225334,
+    "ast_hash": "039a48a05cf5053896b0958868e28a03",
+    "semantic_hash": "039a48a05cf5053896b0958868e28a03"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260508_133920_22bb3f\\run.json": {
+    "mtime": 1778265677.9879167,
+    "ast_hash": "c39ebce20ee80c9715e440bad02aa4b8",
+    "semantic_hash": "c39ebce20ee80c9715e440bad02aa4b8"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260508_134123_d9c31b\\run.json": {
+    "mtime": 1778267103.2736387,
+    "ast_hash": "c986f9627c70d6fec7324bd7baf0dcdf",
+    "semantic_hash": "c986f9627c70d6fec7324bd7baf0dcdf"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260508_140505_7777d6\\run.json": {
+    "mtime": 1778267105.463639,
+    "ast_hash": "51de0bdfab2a1fd2c13e305a0678fc3c",
+    "semantic_hash": "51de0bdfab2a1fd2c13e305a0678fc3c"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260509_004143_c8b526\\run.json": {
+    "mtime": 1778306055.1246898,
+    "ast_hash": "f50883e481b8e962627450f96a38d52e",
+    "semantic_hash": "f50883e481b8e962627450f96a38d52e"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260509_004143_c8b526\\nodes\\node_1778305305.4231567_planner.json": {
+    "mtime": 1778305401.7643883,
+    "ast_hash": "01e1665a947e17cbaf0cf453401e30ca",
+    "semantic_hash": "01e1665a947e17cbaf0cf453401e30ca"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260509_004143_c8b526\\nodes\\node_1778305401.7685301_executor.json": {
+    "mtime": 1778305695.0604248,
+    "ast_hash": "34f7ce87dc708cbb78a56553b1c91222",
+    "semantic_hash": "34f7ce87dc708cbb78a56553b1c91222"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260509_004143_c8b526\\nodes\\node_1778305695.0662022_evaluator.json": {
+    "mtime": 1778305695.067784,
+    "ast_hash": "d105c5dd7c5e419d137482e941c35a16",
+    "semantic_hash": "d105c5dd7c5e419d137482e941c35a16"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260509_004143_c8b526\\nodes\\node_1778305695.0704126_escalate.json": {
+    "mtime": 1778305695.0725193,
+    "ast_hash": "ff1b8f33bdebce4b772561fa54f25d5f",
+    "semantic_hash": "ff1b8f33bdebce4b772561fa54f25d5f"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260509_004143_c8b526\\nodes\\node_1778305695.071997_executor.json": {
+    "mtime": 1778305820.914232,
+    "ast_hash": "94621bf24a8a0205d4f1770ad965c42a",
+    "semantic_hash": "94621bf24a8a0205d4f1770ad965c42a"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260509_004143_c8b526\\nodes\\node_1778305820.9171624_evaluator.json": {
+    "mtime": 1778305820.9191024,
+    "ast_hash": "ea4da0c736546aa23a9cabc6e2cd4542",
+    "semantic_hash": "ea4da0c736546aa23a9cabc6e2cd4542"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260509_004143_c8b526\\nodes\\node_1778305820.9196513_executor.json": {
+    "mtime": 1778305891.2470958,
+    "ast_hash": "d11994809907c26851bdeee92d840c67",
+    "semantic_hash": "d11994809907c26851bdeee92d840c67"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260509_004143_c8b526\\nodes\\node_1778305891.2500322_evaluator.json": {
+    "mtime": 1778305891.2525308,
+    "ast_hash": "688be6be52eb20d759764b010f0dba23",
+    "semantic_hash": "688be6be52eb20d759764b010f0dba23"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260509_004143_c8b526\\nodes\\node_1778305891.2525306_executor.json": {
+    "mtime": 1778305962.2283475,
+    "ast_hash": "7e0dd899720335f4c8eac9b9220f806d",
+    "semantic_hash": "7e0dd899720335f4c8eac9b9220f806d"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260509_004143_c8b526\\nodes\\node_1778305962.2313583_evaluator.json": {
+    "mtime": 1778305962.2333922,
+    "ast_hash": "b2052cc99d729aa143bfe8928e223fe5",
+    "semantic_hash": "b2052cc99d729aa143bfe8928e223fe5"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260509_004143_c8b526\\nodes\\node_1778305962.2349105_executor.json": {
+    "mtime": 1778306055.1085396,
+    "ast_hash": "8c2b6c79d04c1280255cf85e30ca7bcf",
+    "semantic_hash": "8c2b6c79d04c1280255cf85e30ca7bcf"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260509_004143_c8b526\\nodes\\node_1778306055.1115706_evaluator.json": {
+    "mtime": 1778306055.1131449,
+    "ast_hash": "9980cfb7d855d96e7742772be44e9a82",
+    "semantic_hash": "9980cfb7d855d96e7742772be44e9a82"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260509_004143_c8b526\\tools\\tool_025b6c58.json": {
+    "mtime": 1778306054.3043678,
+    "ast_hash": "bf43756d7a20abb462e62df8bfacdefe",
+    "semantic_hash": "bf43756d7a20abb462e62df8bfacdefe"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260509_004143_c8b526\\tools\\tool_1bb358e9.json": {
+    "mtime": 1778305770.134815,
+    "ast_hash": "86a65fa8afb754093ae8ef69ed0a72fe",
+    "semantic_hash": "86a65fa8afb754093ae8ef69ed0a72fe"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260509_004143_c8b526\\tools\\tool_3bb9e48b.json": {
+    "mtime": 1778305891.2470958,
+    "ast_hash": "3b43758609af556604a19498ff228dc1",
+    "semantic_hash": "3b43758609af556604a19498ff228dc1"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260509_004143_c8b526\\tools\\tool_49a0bcc5.json": {
+    "mtime": 1778305425.3585818,
+    "ast_hash": "c8cf3b9c1a61269cd0ae0d9d790cf8eb",
+    "semantic_hash": "c8cf3b9c1a61269cd0ae0d9d790cf8eb"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260509_004143_c8b526\\tools\\tool_5f68e9c0.json": {
+    "mtime": 1778305605.4405928,
+    "ast_hash": "c3d97b141cb1da5e9d5b71bcc4cb9b51",
+    "semantic_hash": "c3d97b141cb1da5e9d5b71bcc4cb9b51"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260509_004143_c8b526\\tools\\tool_75c44cac.json": {
+    "mtime": 1778305854.9487772,
+    "ast_hash": "d2f79d1a79318ac4188aa8e2a895dda3",
+    "semantic_hash": "d2f79d1a79318ac4188aa8e2a895dda3"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260509_004143_c8b526\\tools\\tool_805f71f5.json": {
+    "mtime": 1778305927.7788892,
+    "ast_hash": "594b526efb8fc4c06ddf0113e9d36501",
+    "semantic_hash": "594b526efb8fc4c06ddf0113e9d36501"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260509_004143_c8b526\\tools\\tool_812ce419.json": {
+    "mtime": 1778305399.559377,
+    "ast_hash": "9a8d88319a27ca65f9b9ca3802413d61",
+    "semantic_hash": "9a8d88319a27ca65f9b9ca3802413d61"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260509_004143_c8b526\\tools\\tool_aa3b274b.json": {
+    "mtime": 1778306055.1085396,
+    "ast_hash": "cb7a999828a0b815fec9ba0c4b2cdde8",
+    "semantic_hash": "cb7a999828a0b815fec9ba0c4b2cdde8"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260509_004143_c8b526\\tools\\tool_b57e846c.json": {
+    "mtime": 1778305890.4768207,
+    "ast_hash": "3f23ff056b86089bf34966e24c1e8328",
+    "semantic_hash": "3f23ff056b86089bf34966e24c1e8328"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260509_004143_c8b526\\tools\\tool_b6b8d52d.json": {
+    "mtime": 1778305961.3052342,
+    "ast_hash": "70cd511b691c311d306b57381e300362",
+    "semantic_hash": "70cd511b691c311d306b57381e300362"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260509_004143_c8b526\\tools\\tool_c117a390.json": {
+    "mtime": 1778306001.2632542,
+    "ast_hash": "c50fa70e6ba84704dbf14df8004ce960",
+    "semantic_hash": "c50fa70e6ba84704dbf14df8004ce960"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260509_004143_c8b526\\tools\\tool_d2967077.json": {
+    "mtime": 1778305820.914232,
+    "ast_hash": "a1a95f9ebf4a9448b31834d68604fa72",
+    "semantic_hash": "a1a95f9ebf4a9448b31834d68604fa72"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260509_004143_c8b526\\tools\\tool_f07e0b57.json": {
+    "mtime": 1778305962.2283475,
+    "ast_hash": "f097379bb2dd302af035a4717909efeb",
+    "semantic_hash": "f097379bb2dd302af035a4717909efeb"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tasks\\002_meta_test\\traces\\run_20260509_004143_c8b526\\tools\\tool_fe926c2d.json": {
+    "mtime": 1778305820.1793964,
+    "ast_hash": "3433cfbca4dc46ec31f3d41606199d4a",
+    "semantic_hash": "3433cfbca4dc46ec31f3d41606199d4a"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tests\\test_gemini.py": {
+    "mtime": 1778089658.2331138,
+    "ast_hash": "14cd0287d367137164a40f4c6161bbbc",
+    "semantic_hash": "14cd0287d367137164a40f4c6161bbbc"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tests\\test_langsmith.py": {
+    "mtime": 1778091151.524245,
+    "ast_hash": "927289c3285d37c2d5de4eeee0b547ed",
+    "semantic_hash": "927289c3285d37c2d5de4eeee0b547ed"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\tests\\test_local.py": {
+    "mtime": 1778089750.0974789,
+    "ast_hash": "1973c95f4372e0faaf2b6f3ab7650996",
+    "semantic_hash": "1973c95f4372e0faaf2b6f3ab7650996"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\workspace\\solution.py": {
+    "mtime": 1778089819.4291823,
+    "ast_hash": "48d8b6e45db658ca6e3b2f08a7ce041f",
+    "semantic_hash": "48d8b6e45db658ca6e3b2f08a7ce041f"
+  },
+  "C:\\Users\\kaanchan\\Projects\\AI\\ralph\\workspace\\string_reversal.py": {
+    "mtime": 1778090317.6477365,
+    "ast_hash": "bfadfb443653f76d0fef750944ed6523",
+    "semantic_hash": "bfadfb443653f76d0fef750944ed6523"
+  }
+}

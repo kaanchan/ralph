@@ -9,3 +9,7 @@ workspace/
 ralph_run.log
 diagnostics/diag_*.log
 diagnostics/diag_latest.log
+
+# graphify
+graphify-out/cache/
+graphify-out/.graphify_python
