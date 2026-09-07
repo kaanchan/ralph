@@ -275,6 +275,41 @@ This is the right long-term architecture. qwen25-coder-14b is good at whole-file
 
 ---
 
+## 8a. Addendum (2026-09-07) — Step 1 executed, evidence recorded
+
+Ran `diagnostics/d8_stream_capture.py` (new script, this session) to execute the
+untried Step 1 experiment above: stream-capture the raw Ollama response for both
+the known-fast short plan and a long plan sized to bracket the reported 1108-char
+failing case, through the REAL `prompts/solution.txt` / `prompts/test_solution.txt`
+templates, with `num_ctx` capped at 8192 (see kaanchan/mooladhara gpu-guard skill —
+this machine is now an RTX 5080 Laptop 16GB, not the RTX 3090 in Sec 10 above).
+
+**Result: no reproduction.** All four calls (short/long plan x solution/test)
+returned in 3.9–7.1s with the code fence as the very first token emitted
+(`pre_fence_chars: 0` in every case) — no reasoning/thinking preamble at any plan
+length. Raw NDJSON chunks + a summary are in `diagnostics/d8_output/` (gitignored;
+rerun the script to reproduce).
+
+This does not prove the original 90s+ hang can never recur, but it is evidence
+against the "longer plan triggers a reasoning-mode preamble" hypothesis in 7b, and
+consistent instead with the gpu-guard skill's documented root cause for this class
+of symptom: an **uncapped `num_ctx` spilling the model to CPU** at ~2–5 tok/s, which
+reads as a hang. Two things already in the current codebase (both postdate this
+handoff doc, neither had recorded verification) point the same direction:
+
+- `prompts/test_solution.txt` / `executor.py::run_aider()` no longer include the
+  plan in the test prompt at all (Step 2 above — already applied).
+- `executor.py::_write_file_local()` now calls `model_registry.calculate_safe_ctx()`
+  against `hardware.get_free_vram_mb()` before every local call — i.e. VRAM-aware
+  context capping, the gpu-guard fix, is already wired in.
+
+**Still open:** none of this is a live end-to-end RALPH run (`d6_ralph_loop.py` /
+`main.py`) with the local model — issue #2's actual success criterion ("RALPH
+completes without cloud escalation on a simple task") remains unverified against
+current code. That's the natural next unit.
+
+---
+
 ## 9. Current File State Summary
 
 ### `config.py` — clean, correct

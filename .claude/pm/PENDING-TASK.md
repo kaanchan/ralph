@@ -1,53 +1,45 @@
 # Pending Task — ralph
 
-## Current State
-- Branch: main
-- Phase: Hardening timeouts + observability after Aider hang debug session
-- Aider hang root cause: post-edit auto-commit LLM call on new files (no HEAD baseline)
-- Fix already in place: executor.py uses --no-auto-commits + --no-dirty-commits + script-managed commits
+## Current State (verified 2026-09-07)
+- Branch: master (swarm work lands on `swarm/20260907-2`)
+- The 2026-05-06 timeout/observability hardening checklist that used to live in this
+  file is DONE — verified line-by-line against current source, not assumed:
+  - `config.py`: OLLAMA_API_BASE/OLLAMA_BASE_URL alias, all timeouts env-overridable
+    (`RALPH_TIMEOUT_LLM/AIDER/GIT`, `RALPH_SILENT_WARN`), `TIMEOUT_SENTINEL`.
+  - `router.py::llm_call()`: hard timeout + sentinel on Timeout/APIConnectionError.
+  - `router.py::route_decision()`: circuit breaker on `MAX_CONSECUTIVE_TIMEOUTS`.
+  - `executor.py`: Popen + reader thread, `SILENT_WARN_AFTER` watchdog, hard kill at
+    `AIDER_TIMEOUT`, `timeout_count` threaded through `state.py`.
+  - `evaluator.py`: detects `TIMEOUT_SENTINEL`, scores 0.
+  - No code work needed here — do not re-do it.
 
-## In Progress — Timeout & Observability Hardening
-User signed off on the plan 2026-05-06. Executing now.
+## Active thread: issue #2 (local model / Aider diagnosis), blocks #1
 
-### Bug to fix in same pass
-- [ ] `executor.py:16` imports `OLLAMA_API_BASE` but `config.py:12` defines `OLLAMA_BASE_URL` → ImportError on first run.
-      Fix: rename in config.py to `OLLAMA_API_BASE`, update router.py import to match.
+See https://github.com/kaanchan/ralph/issues/2 and the triage in
+https://github.com/kaanchan/ralph/issues/3 for full context.
 
-### Tiered timeouts (env-overridable)
-- [ ] `config.py`: add `LLM_TIMEOUT_SHORT=30`, `AIDER_TIMEOUT=90`, `GIT_TIMEOUT=10`, `SILENT_WARN_AFTER=15`, `RALPH_LOG_PATH`
-- [ ] All read from env: `RALPH_TIMEOUT_LLM`, `RALPH_TIMEOUT_AIDER`, `RALPH_TIMEOUT_GIT`, `RALPH_SILENT_WARN`
+- [x] Handoff doc (`docs/Claude_Handoff.md` §8 Step 2 — drop plan from test prompt):
+      already applied in `prompts/test_solution.txt` + `executor.py::run_aider()`.
+- [x] §8 Step 3 (wait for Ollama idle after a timeout): `executor.py::_wait_for_ollama()`
+      exists and is called from `executor_node()` on timeout.
+- [x] §8 Step 1 (capture raw streaming output for short vs long plan): executed
+      2026-09-07 via new `diagnostics/d8_stream_capture.py`. Result: no reasoning-mode
+      preamble at either plan length once `num_ctx` is capped (8192) — see
+      `docs/Claude_Handoff.md` §8a Addendum for the full writeup and hypothesis.
+- [ ] **Next unit**: a live end-to-end run — `python diagnostics/d6_ralph_loop.py` or
+      `python main.py --repo ../ralph-test-target "<simple task>"` — to check issue
+      #2's actual success criterion (no cloud escalation) against CURRENT code.
+      Nobody has run this since the fixes above landed; the last recorded run
+      (`logs/traces/run_20260509_004143_c8b526`, cited in issue #3) predates them and
+      still shows the old failure mode, so it is not evidence about current code.
+      Budget ~3 min wall-clock per the handoff doc; follow the gpu-guard skill
+      (SERIAL, precheck, liveness deadline) since it drives the local model directly.
 
-### LLM call hardening (router.py)
-- [ ] `llm_call()` add `timeout=LLM_TIMEOUT_SHORT` to litellm.completion
-- [ ] Catch litellm Timeout/APIConnectionError → log loudly + return sentinel `"<<RALPH_TIMEOUT>>"`
-- [ ] Loud log includes ollama /api/ps state at moment of timeout
-
-### Executor hardening (executor.py)
-- [ ] Switch `subprocess.run(capture_output=True)` → Popen + reader thread + 0.5s poll
-- [ ] Stream lines live to console + ralph_run.log
-- [ ] Watchdog at SILENT_WARN_AFTER seconds → emit warning (still running)
-- [ ] Hard kill at AIDER_TIMEOUT
-- [ ] On timeout: return empty stdout + sentinel in stderr; do NOT raise
-- [ ] _git timeout 15 → 10
-
-### State + routing (state.py, evaluator.py, router.py)
-- [ ] state.py: add `timeout_count: int` to RalphState
-- [ ] evaluator.py: detect timeout sentinel → score 0.05 + reason "executor timed out"
-- [ ] route_decision: 2 consecutive timeouts → END (hard fail with clear message), not loop forever
-
-### Observability (main.py)
-- [ ] Open ralph_run.log; mirror all node output to it
-- [ ] Document `Get-Content -Wait ralph_run.log` for live tailing
-
-## Pending Verification (after this hardening lands)
-- [ ] python diagnostics\d3_aider.py → Variant D passes
-- [ ] python diagnostics\run_all.py --fast → D1–D5 all pass
-- [ ] python main.py --repo ../ralph-test-target "write a function that adds two numbers and a test" → end-to-end success
-- [ ] Test timeout path: temporarily set `RALPH_TIMEOUT_LLM=2` and confirm sentinel + escalation work
-
-## Known Gaps / Future Work (deferred)
+## Known Gaps / Future Work (deferred, unchanged from prior sessions)
 - Sandboxing: executor runs code on host — add WSL/Docker isolation later
 - Evaluator uses regex on test output, not LLM — fine for MVP
-- Get fresh Gemini API key (current one quota-exhausted)
+- Get fresh Gemini API key (current one quota-exhausted as of 2026-05)
 - Get fresh LangSmith API key
 - Test `langgraph dev` for LangGraph Studio web visualization
+- Issue #1 (observability/TV-mode) is explicitly blocked on #2 being stable — don't
+  start it until the item above lands with a real passing run.

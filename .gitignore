@@ -9,6 +9,7 @@ workspace/
 ralph_run.log
 diagnostics/diag_*.log
 diagnostics/diag_latest.log
+diagnostics/d8_output/
 
 # graphify
 graphify-out/cache/
