@@ -1,1 +1,2 @@
 {"ts": "2026-09-07T01:57:47Z", "agent": "swarm 20260907T064155-ralph", "issue": 2, "status": "claimed", "note": "run handoff Step1 stream-capture diagnostic, no live run"}
+{"ts": "2026-09-07T02:00:00Z", "agent": "swarm 20260907T064155-ralph", "issue": 2, "status": "done", "commit": "ffc3df6", "branch": "swarm/20260907-2", "note": "d8 stream-capture diagnostic run, PM notes refreshed"}
