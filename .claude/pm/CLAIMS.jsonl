@@ -1,0 +1,2 @@
+{"ts": "2026-10-12T10:51:26Z", "agent": "swarm 20261012T154840-ralph", "issue": 2, "status": "claimed", "note": "regression test: test-file prompt drops plan"}
+{"ts": "2026-10-12T10:53:59Z", "agent": "swarm 20261012T154840-ralph", "issue": 2, "status": "done", "commit": "fa726a0", "branch": "swarm/20261012-wave", "note": "regression test + docs refresh 12d4bd3"}
