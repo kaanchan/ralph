@@ -1,5 +1,7 @@
 # RALPH (Recursive Agentic Local Python Hacker)
 
+> **Start here:** current work and the next unit are in `.claude/pm/PENDING-TASK.md`; the engineering handoff is `docs/Claude_Handoff.md`.
+
 RALPH is a local-first recursive coding agent. Given a task pod, it iteratively plans, executes, evaluates, and loops until the test suite passes. It uses free local 14B models (like `qwen25-coder-14b`) via direct Ollama API for code generation, and falls back to Aider + Gemini when local attempts fail.
 
 ## Architecture: Task Pods
@@ -26,7 +28,7 @@ tasks/
 - **`src/`**: Core application logic.
   - `main.py`: CLI entry point — `run <task_dir>` or `history`.
   - `graph.py`: Base LangGraph loop skeleton.
-  - `nodes/`: Individual node implementations (planner, executor, evaluator, router, escalator).
+  - `nodes/`: Individual node implementations (planner, executor, evaluator, consultant).
   - `hardware.py`: Dynamic VRAM profiler via `nvidia-smi`.
   - `model_registry.py`: Model capability and VRAM baseline registry.
   - `config.py`: Centralized config; `set_task_directory()` re-routes paths per pod.
