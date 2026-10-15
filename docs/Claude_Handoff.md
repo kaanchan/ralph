@@ -48,13 +48,13 @@ Aider requires models to output either SEARCH/REPLACE blocks, udiff hunks, or co
 | `graph.py` | LangGraph graph definition — planner → executor → evaluator → route |
 | `config.py` | All constants, timeouts, model names, paths |
 | `executor.py` | **The critical file** — writes code files, local/cloud split |
-| `planner.py` | Generates implementation plan via LiteLLM |
+| `nodes/planner/default_planner.py` | Generates implementation plan via LiteLLM |
 | `router.py` | Model selection, LiteLLM wrapper for `llm_call()` |
 | `evaluator.py` | Scores test output, decides done/retry/escalate |
 | `state.py` | TypedDict for LangGraph state |
 | `runlog.py` | Timestamped log to file and console |
 | `memory.py` | Saves run history as JSON |
-| `diagnostics/` | D1–D6 + D_model + run_all.py — layered smoke test suite |
+| `diagnostics/` | D1–D7 + D_model + run_all.py — layered smoke test suite |
 
 ### executor.py — Local vs Cloud Split
 
@@ -300,7 +300,7 @@ This is the right long-term architecture. qwen25-coder-14b is good at whole-file
 - `d6_ralph_loop.py`: Full RALPH loop (slow, ~3 min)
 - `run_all.py`: Orchestrates all diagnostics with self-relaunch for PYTHONUTF8=1
 
-### `ralph-test-target/` — state uncertain
+### ralph-test-target (external sibling repo) — NOT present on this machine as of 2026-10-12 (checked: no ../ralph-test-target); the notes below are historical
 - `solution.py`: may contain real content from a previous run or placeholder
 - `test_solution.py`: may contain real content or placeholder
 - Run `git -C ../ralph-test-target log --oneline -5` to check
