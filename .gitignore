@@ -14,3 +14,9 @@ diagnostics/d8_output/
 # graphify
 graphify-out/cache/
 graphify-out/.graphify_python
+
+# estate sync 2026-10-23
+.claude/tmp/
+.claude/worktrees/
+tasks/*/checkpoints.sqlite-shm
+tasks/*/checkpoints.sqlite-wal
